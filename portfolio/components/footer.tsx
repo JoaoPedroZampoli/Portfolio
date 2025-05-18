@@ -31,7 +31,7 @@ export const Footer = () => {
                 <LinkedInIcon className="text-default-500 hover:text-primary transition-colors" />
               </Link>
               <Link isExternal href={siteConfig.links.github} aria-label="GitHub">
-                <GithubIcon className="text-default-500 hover:text-white transition-colors" />
+                <GithubIcon className="text-default-500 hover:text-black dark:hover:text-white transition-colors" />
               </Link>
             </div>
           </div>

@@ -147,7 +147,7 @@ export default function Home() {
                   <div className="flex flex-col gap-3">
                     <Button 
                       as={Link}
-                      href="/resume/cv-joao-zampoli-pt.pdf" 
+                      href="/resume/Curriculo - Online Version - JoaoPedroZampoli.pdf" 
                       target="_blank"
                       className={buttonStyles({
                         color: "primary",
@@ -164,7 +164,7 @@ export default function Home() {
                     </Button>
                     <Button 
                       as={Link}
-                      href="/resume/cv-joao-zampoli-en.pdf" 
+                      href="/resume/Resume - Online Version - JoaoPedroZampoli.pdf" 
                       target="_blank"
                       className={buttonStyles({
                         color: "secondary",
@@ -242,20 +242,20 @@ export default function Home() {
       
       <div className="w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 p-6 rounded-xl bg-default-50 border border-default-200">
         <div className="flex flex-col items-center md:items-start p-4">
-          <p className={title({ size: "sm", color: "violet", class: "mb-1" })}>3+</p>
+          <p className={title({ size: "sm", color: "blue", class: "mb-1" })}>3+</p>
           <p className="text-default-500 text-sm">Anos de experiência</p>
         </div>
         <div className="flex flex-col items-center md:items-start p-4">
-          <p className={title({ size: "sm", color: "violet", class: "mb-1" })}>20+</p>
+          <p className={title({ size: "sm", color: "blue", class: "mb-1" })}>20+</p>
           <p className="text-default-500 text-sm">Projetos concluídos</p>
         </div>
         <div className="flex flex-col items-center md:items-start p-4">
-          <p className={title({ size: "sm", color: "violet", class: "mb-1" })}>10+</p>
+          <p className={title({ size: "sm", color: "blue", class: "mb-1" })}>10+</p>
           <p className="text-default-500 text-sm">Tecnologias</p>
         </div>
         <div className="flex flex-col items-center md:items-start p-4">
-          <p className={title({ size: "sm", color: "violet", class: "mb-1" })}>100%</p>
-          <p className="text-default-500 text-sm">Comprometimento</p>
+          <p className={title({ size: "sm", color: "blue", class: "mb-1" })}>Alguma</p>
+          <p className="text-default-500 text-sm">Coisa</p>
         </div>
       </div>
 
@@ -579,9 +579,9 @@ export default function Home() {
             as={Link}
             href="/projects"
             className={buttonStyles({
-              color: "secondary", 
+              color: "primary", 
               radius: "full",
-              variant: "bordered",
+              variant: "flat",
               size: "md"
             })}
           >
