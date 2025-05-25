@@ -81,11 +81,13 @@ export const Navbar = () => {
           >
             <NextLink className="flex justify-start items-center gap-1" href="/">
               <Logo />
-              {/* <p className="font-bold text-inherit">ACME</p> */}
+              <p className="font-bold text-inherit">João Pedro Zampoli</p>
             </NextLink>
           </motion.div>
         </NavbarBrand>
-        <ul className="hidden lg:flex gap-4 justify-start ml-2">
+      </NavbarContent>
+      <NavbarContent className="hidden sm:flex basis-3/5" justify="center">
+        <ul className="hidden lg:flex gap-4 justify-center">
           {siteConfig.navItems.map((item, index) => (
             <NavbarItem key={item.href}>
               <motion.div
@@ -98,7 +100,7 @@ export const Navbar = () => {
                 <NextLink
                   className={clsx(
                     linkStyles({ color: "foreground" }),
-                    "data-[active=true]:text-primary data-[active=true]:font-medium",
+                    "data-[active=true]:text-primary data-[active=true]:font-medium pr-2 pl-2",
                   )}
                   color="foreground"
                   href={item.href}
@@ -110,9 +112,8 @@ export const Navbar = () => {
           ))}
         </ul>
       </NavbarContent>
-
       <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
+        className="hidden sm:flex basis-1/5"
         justify="end"
       >
         <NavbarItem className="hidden sm:flex gap-2">

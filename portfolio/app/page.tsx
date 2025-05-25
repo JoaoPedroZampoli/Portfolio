@@ -14,24 +14,23 @@ import ScrollToTop from "@/components/scroll-to-top";
 
 export default function Home() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isOpen: isImageModalOpen, onOpen: onImageModalOpen, onClose: onImageModalClose } = useDisclosure();
 
   // Refs para os containers de miniaturas
-  const thumbnailsRef1 = useRef<HTMLDivElement>(null);
-  const thumbnailsRef2 = useRef<HTMLDivElement>(null);
-  const thumbnailsRef3 = useRef<HTMLDivElement>(null);
+  const thumbnailsRef1 = useRef(null);
+  const thumbnailsRef2 = useRef(null);
+  const thumbnailsRef3 = useRef(null);
 
   // Refs para as imagens principais (para touch)
-  const imageRef1 = useRef<HTMLDivElement>(null);
-  const imageRef2 = useRef<HTMLDivElement>(null);
-  const imageRef3 = useRef<HTMLDivElement>(null);
+  const imageRef1 = useRef(null);
+  const imageRef2 = useRef(null);
+  const imageRef3 = useRef(null);
 
   // Estados para touch handling e animação
   const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
   const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
-  const [currentDragGallery, setCurrentDragGallery] = useState<number | null>(null);
+  const [currentDragGallery, setCurrentDragGallery] = useState(null);
 
 
   // Dados das imagens de projetos
@@ -73,48 +72,27 @@ export default function Home() {
   const [selectedImg2Index, setSelectedImg2Index] = useState(0);
   const [selectedImg3Index, setSelectedImg3Index] = useState(0);
 
-  // Estados para transições de imagem
-  const [isTransitioning1, setIsTransitioning1] = useState(false);
-  const [isTransitioning2, setIsTransitioning2] = useState(false);
-  const [isTransitioning3, setIsTransitioning3] = useState(false);
-
-  // Estados para modal de imagem
-  const [modalImage, setModalImage] = useState<string>('');
-  const [modalImageAlt, setModalImageAlt] = useState<string>('');
-
   // Funções de navegação das galerias
-  const navigateGallery = (galleryIndex: number, direction: 'next' | 'prev') => {
+  const navigateGallery = (galleryIndex, direction) => {
     if (galleryIndex === 1) {
-      setIsTransitioning1(true);
-      setTimeout(() => {
-        const nextIndex = direction === 'next' 
-          ? (selectedImg1Index + 1) % projeto1Imagens.length
-          : (selectedImg1Index - 1 + projeto1Imagens.length) % projeto1Imagens.length;
-        setSelectedImg1Index(nextIndex);
-        setIsTransitioning1(false);
-      }, 150);
+      const nextIndex = direction === 'next' 
+        ? (selectedImg1Index + 1) % projeto1Imagens.length
+        : (selectedImg1Index - 1 + projeto1Imagens.length) % projeto1Imagens.length;
+      setSelectedImg1Index(nextIndex);
     } else if (galleryIndex === 2) {
-      setIsTransitioning2(true);
-      setTimeout(() => {
-        const nextIndex = direction === 'next' 
-          ? (selectedImg2Index + 1) % projeto2Imagens.length
-          : (selectedImg2Index - 1 + projeto2Imagens.length) % projeto2Imagens.length;
-        setSelectedImg2Index(nextIndex);
-        setIsTransitioning2(false);
-      }, 150);
+      const nextIndex = direction === 'next' 
+        ? (selectedImg2Index + 1) % projeto2Imagens.length
+        : (selectedImg2Index - 1 + projeto2Imagens.length) % projeto2Imagens.length;
+      setSelectedImg2Index(nextIndex);
     } else if (galleryIndex === 3) {
-      setIsTransitioning3(true);
-      setTimeout(() => {
-        const nextIndex = direction === 'next' 
-          ? (selectedImg3Index + 1) % projeto3Imagens.length
-          : (selectedImg3Index - 1 + projeto3Imagens.length) % projeto3Imagens.length;
-        setSelectedImg3Index(nextIndex);
-        setIsTransitioning3(false);
-      }, 150);
+      const nextIndex = direction === 'next' 
+        ? (selectedImg3Index + 1) % projeto3Imagens.length
+        : (selectedImg3Index - 1 + projeto3Imagens.length) % projeto3Imagens.length;
+      setSelectedImg3Index(nextIndex);
     }
   };
 
-  const handleTouchStart = (e: React.TouchEvent, galleryIndex: number) => {
+  const handleTouchStart = (e, galleryIndex) => {
     setTouchEnd({ x: 0, y: 0 });
     setTouchStart({
       x: e.targetTouches[0].clientX,
@@ -125,7 +103,7 @@ export default function Home() {
     setDragOffset(0);
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
+  const handleTouchMove = (e) => {
     if (!isDragging) return;
     
     const currentX = e.targetTouches[0].clientX;
@@ -149,7 +127,7 @@ export default function Home() {
     setDragOffset(offset);
   };
 
-  const handleTouchEnd = (galleryIndex: number) => {
+  const handleTouchEnd = (galleryIndex) => {
     if (!touchStart.x || !touchEnd.x) {
       setIsDragging(false);
       setDragOffset(0);
@@ -159,8 +137,8 @@ export default function Home() {
     
     const distanceX = touchStart.x - touchEnd.x;
     const distanceY = touchStart.y - touchEnd.y;
-    const isLeftSwipe = distanceX > 30; // Reduced threshold for better sensitivity
-    const isRightSwipe = distanceX < -30; // Reduced threshold for better sensitivity
+    const isLeftSwipe = distanceX > 50;
+    const isRightSwipe = distanceX < -50;
     const isVerticalSwipe = Math.abs(distanceY) > Math.abs(distanceX);
     
     // Ignora swipes verticais
@@ -180,13 +158,12 @@ export default function Home() {
   };
 
   // Função para rolar até a miniatura selecionada
-  const scrollToThumbnail = (galleryIndex: number, index: number) => {
-    let thumbnailsRef: React.RefObject<HTMLDivElement>;
+  const scrollToThumbnail = (galleryIndex, index) => {
+    let thumbnailsRef;
     
     if (galleryIndex === 1) thumbnailsRef = thumbnailsRef1;
     else if (galleryIndex === 2) thumbnailsRef = thumbnailsRef2;
     else if (galleryIndex === 3) thumbnailsRef = thumbnailsRef3;
-    else return;
     
     if (thumbnailsRef?.current) {
       const container = thumbnailsRef.current;
@@ -200,48 +177,14 @@ export default function Home() {
     }
   };
 
-  // Funções para mudança de imagem com transição via thumbnail
-  const handleThumbnailClick = (galleryIndex: number, index: number) => {
-    if (galleryIndex === 1 && index !== selectedImg1Index) {
-      setIsTransitioning1(true);
-      setTimeout(() => {
-        setSelectedImg1Index(index);
-        setIsTransitioning1(false);
-      }, 150);
-    } else if (galleryIndex === 2 && index !== selectedImg2Index) {
-      setIsTransitioning2(true);
-      setTimeout(() => {
-        setSelectedImg2Index(index);
-        setIsTransitioning2(false);
-      }, 150);
-    } else if (galleryIndex === 3 && index !== selectedImg3Index) {
-      setIsTransitioning3(true);
-      setTimeout(() => {
-        setSelectedImg3Index(index);
-        setIsTransitioning3(false);
-      }, 150);
-    }
-  };
-
-  // Função para abrir modal com imagem ampliada
-  const openImageModal = (galleryIndex: number) => {
-    let currentImageSrc = '';
-    let currentImageAlt = '';
-    
+  const handleThumbnailClick = (galleryIndex, index) => {
     if (galleryIndex === 1) {
-      currentImageSrc = projeto1Imagens[selectedImg1Index];
-      currentImageAlt = `Gato, o jogo - Imagem ${selectedImg1Index + 1}`;
+      setSelectedImg1Index(index);
     } else if (galleryIndex === 2) {
-      currentImageSrc = projeto2Imagens[selectedImg2Index];
-      currentImageAlt = `VApt - Imagem ${selectedImg2Index + 1}`;
+      setSelectedImg2Index(index);
     } else if (galleryIndex === 3) {
-      currentImageSrc = projeto3Imagens[selectedImg3Index];
-      currentImageAlt = `Kerana: Firehose Origins - Imagem ${selectedImg3Index + 1}`;
+      setSelectedImg3Index(index);
     }
-    
-    setModalImage(currentImageSrc);
-    setModalImageAlt(currentImageAlt);
-    onImageModalOpen();
   };
 
   // Efeito para rolar para a miniatura ativa quando a imagem muda
@@ -440,23 +383,12 @@ export default function Home() {
                       damping: isDragging ? 0 : 30,
                     }}
                   >
-                    <motion.div
-                      key={selectedImg1Index}
-                      initial={{ opacity: 0, scale: 1.1 }}
-                      animate={{ opacity: isTransitioning1 ? 0.7 : 1, scale: 1 }}
-                      transition={{ 
-                        duration: 0.7,
-                        type: "spring"
-                      }}
-                    >
-                      <Image
-                        src={projeto1Imagens[selectedImg1Index]}
-                        alt="Screenshot do Projeto 1"
-                        className="w-full h-full object-cover transition-all duration-300 cursor-pointer"
-                        width={800}
-                        onClick={() => openImageModal(1)}
-                      />
-                    </motion.div>
+                    <Image
+                      src={projeto1Imagens[selectedImg1Index]}
+                      alt="Screenshot do Projeto 1"
+                      className="w-full h-full object-cover transition-transform duration-500"
+                      width={800}
+                    />
                   </motion.div>
                   
                   {/* Botões de navegação */}
@@ -487,8 +419,8 @@ export default function Home() {
                     {projeto1Imagens.map((_, index) => (
                       <button 
                         key={index} 
-                        onClick={() => handleThumbnailClick(1, index)}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${selectedImg1Index === index ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/60'}`}
+                        onClick={() => setSelectedImg1Index(index)}
+                        className={`w-2 h-2 rounded-full transition-colors ${selectedImg1Index === index ? 'bg-white' : 'bg-white/40'}`}
                         aria-label={`Ir para imagem ${index + 1}`}
                       />
                     ))}
@@ -497,14 +429,16 @@ export default function Home() {
                 
                 <div 
                   ref={thumbnailsRef1}
-                  className="flex overflow-x-auto space-x-2 py-1 hide-scrollbar scroll-smooth"
+                  className="flex overflow-x-auto py-1 hide-scrollbar scroll-smooth"
                 >
                   {projeto1Imagens.map((imgSrc, index) => (
-                    <button 
-                      key={index}
-                      className={`flex-shrink-0 h-14 rounded-lg overflow-hidden border-2 transition-all duration-300 ${selectedImg1Index === index ? 'border-primary scale-105 shadow-lg' : 'border-transparent opacity-70 hover:opacity-90 hover:scale-102'}`}
-                      onClick={() => handleThumbnailClick(1, index)}
-                    >
+                     <button 
+                        key={index}
+                        className={`flex-shrink-0 h-14 rounded-medium overflow-hidden border-2 transition-all duration-300 ${
+                          index === 0 ? 'ml-1' : 'ml-2'
+                        } ${selectedImg1Index === index ? 'border-primary scale-105 shadow-lg' : 'border-transparent opacity-70 hover:opacity-90 hover:scale-102'}`}
+                        onClick={() => setSelectedImg1Index(index)}
+                      >
                       <Image 
                         src={imgSrc}
                         alt={`Miniatura ${index + 1}`}
@@ -572,23 +506,12 @@ export default function Home() {
                       damping: isDragging ? 0 : 30,
                     }}
                   >
-                    <motion.div
-                      key={selectedImg2Index}
-                      initial={{ opacity: 0, scale: 1.1 }}
-                      animate={{ opacity: isTransitioning2 ? 0.7 : 1, scale: 1 }}
-                      transition={{ 
-                        duration: 0.7,
-                        type: "spring"
-                      }}
-                    >
-                      <Image
-                        src={projeto2Imagens[selectedImg2Index]}
-                        alt="Screenshot do Projeto 2"
-                        className="w-full h-full object-cover transition-all duration-300 cursor-pointer"
-                        width={800}
-                        onClick={() => openImageModal(2)}
-                      />
-                    </motion.div>
+                    <Image
+                      src={projeto2Imagens[selectedImg2Index]}
+                      alt="Screenshot do Projeto 2"
+                      className="w-full h-full object-cover transition-transform duration-500"
+                      width={800}
+                    />
                   </motion.div>
                   
                   {/* Botões de navegação */}
@@ -620,7 +543,7 @@ export default function Home() {
                       <button 
                         key={index} 
                         onClick={() => handleThumbnailClick(2, index)}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${selectedImg2Index === index ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/60'}`}
+                        className={`w-2 h-2 rounded-full transition-colors ${selectedImg2Index === index ? 'bg-white' : 'bg-white/40'}`}
                         aria-label={`Ir para imagem ${index + 1}`}
                       />
                     ))}
@@ -634,7 +557,7 @@ export default function Home() {
                   {projeto2Imagens.map((imgSrc, index) => (
                     <button 
                       key={index}
-                      className={`flex-shrink-0 h-14 rounded-lg overflow-hidden border-2 transition-all duration-300 ${selectedImg2Index === index ? 'border-primary scale-105 shadow-lg' : 'border-transparent opacity-70 hover:opacity-90 hover:scale-102'}`}
+                      className={`flex-shrink-0 h-14 rounded-medium overflow-hidden border-2 transition-all duration-300 ${selectedImg2Index === index ? 'border-primary scale-105 shadow-lg' : 'border-transparent opacity-70 hover:opacity-90 hover:scale-102'}`}
                       onClick={() => handleThumbnailClick(2, index)}
                     >
                       <Image 
@@ -704,23 +627,12 @@ export default function Home() {
                       damping: isDragging ? 0 : 30,
                     }}
                   >
-                    <motion.div
-                      key={selectedImg3Index}
-                      initial={{ opacity: 0, scale: 1.1 }}
-                      animate={{ opacity: isTransitioning3 ? 0.7 : 1, scale: 1 }}
-                      transition={{ 
-                        duration: 0.7,
-                        type: "spring"
-                      }}
-                    >
-                      <Image
-                        src={projeto3Imagens[selectedImg3Index]}
-                        alt="Screenshot do Projeto 3"
-                        className="w-full h-full object-cover transition-all duration-300 cursor-pointer"
-                        width={800}
-                        onClick={() => openImageModal(3)}
-                      />
-                    </motion.div>
+                    <Image
+                      src={projeto3Imagens[selectedImg3Index]}
+                      alt="Screenshot do Projeto 3"
+                      className="w-full h-full object-cover transition-transform duration-500"
+                      width={800}
+                    />
                   </motion.div>
                   
                   {/* Botões de navegação */}
@@ -766,7 +678,7 @@ export default function Home() {
                   {projeto3Imagens.map((imgSrc, index) => (
                     <button 
                       key={index}
-                      className={`flex-shrink-0 h-14 rounded-lg overflow-hidden border-2 transition-all duration-300 ${selectedImg3Index === index ? 'border-primary scale-105 shadow-lg' : 'border-transparent opacity-70 hover:opacity-90 hover:scale-102'}`}
+                      className={`flex-shrink-0 h-14 rounded-medium overflow-hidden border-2 transition-all duration-300 ${selectedImg3Index === index ? 'border-primary scale-105 shadow-lg' : 'border-transparent opacity-70 hover:opacity-90 hover:scale-102'}`}
                       onClick={() => handleThumbnailClick(3, index)}
                     >
                       <Image 
@@ -832,7 +744,7 @@ export default function Home() {
         </div>
       </motion.div>
       
-      <motion.div className="w-full max-w-4xl mt-24 mb-12" 
+      {/* <motion.div className="w-full max-w-4xl mt-24 mb-12" 
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.1 }}
@@ -949,53 +861,9 @@ export default function Home() {
             Ver trajetória completa
           </Button>
         </div>
-      </motion.div>
+      </motion.div> */}
       
       <ScrollToTop />
-      
-      {/* Modal para visualização ampliada de imagens */}
-      <Modal 
-        isOpen={isImageModalOpen} 
-        onClose={onImageModalClose}
-        size="5xl"
-        scrollBehavior="inside"
-        classNames={{
-          backdrop: "bg-black/80 backdrop-blur-sm",
-          base: "border-none bg-transparent shadow-none",
-          body: "p-0",
-          header: "border-none bg-transparent pb-2",
-          footer: "border-none bg-transparent pt-2"
-        }}
-      >
-        <ModalContent>
-          <ModalHeader className="flex flex-col gap-1 text-white">
-            <h3 className="text-lg font-semibold">{modalImageAlt}</h3>
-          </ModalHeader>
-          <ModalBody>
-            <div className="flex justify-center items-center w-full">
-              <Image
-                src={modalImage}
-                alt={modalImageAlt}
-                className="max-w-full max-h-[80vh] object-contain rounded-lg"
-                width={1920}
-                height={1080}
-              />
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button 
-              className={buttonStyles({
-                color: "danger",
-                variant: "light",
-                radius: "md"
-              })}
-              onPress={onImageModalClose}
-            >
-              Fechar
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </section>
   );
 }

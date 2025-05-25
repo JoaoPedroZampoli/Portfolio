@@ -21,7 +21,7 @@ export const Footer = () => {
           <div className="col-span-1 md:col-span-1">
             <NextLink href="/" className="flex items-center gap-2 mb-4">
               <Logo size={30} />
-              <p className="font-bold text-inherit">ACME</p>
+              <p className="font-bold text-inherit">João Pedro Zampoli</p>
             </NextLink>
             <p className="text-sm text-default-500 mb-4">
               {siteConfig.description}
