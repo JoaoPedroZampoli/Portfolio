@@ -81,7 +81,7 @@ export const Navbar = () => {
           >
             <NextLink className="flex justify-start items-center gap-1" href="/">
               <Logo />
-              <p className="font-bold text-inherit">João Pedro Zampoli</p>
+              <p className="font-bold text-foreground transition-colors duration-300">João Pedro Zampoli</p>
             </NextLink>
           </motion.div>
         </NavbarBrand>
@@ -123,12 +123,12 @@ export const Navbar = () => {
             transition={{ duration: 0.4, delay: 0.2 }}
             className="flex gap-2"
           >
-            <motion.div whileHover={{ scale: 1.2, rotate: 5 }} whileTap={{ scale: 0.9 }}>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
               <Link isExternal aria-label="LinkedIn" href={siteConfig.links.linkedin}>
                 <LinkedInIcon className="text-default-500" />
               </Link>
             </motion.div>
-            <motion.div whileHover={{ scale: 1.2, rotate: -5 }} whileTap={{ scale: 0.9 }}>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
               <Link isExternal aria-label="Github" href={siteConfig.links.github}>
                 <GithubIcon className="text-default-500" />
               </Link>
@@ -136,6 +136,7 @@ export const Navbar = () => {
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
               <ThemeSwitch />
             </motion.div>
+            <NavbarMenuToggle className="lg:hidden md:flex" onClick={handleMenuToggle} />
           </motion.div>
         </NavbarItem>
         <NavbarItem className="hidden md:flex">
@@ -146,7 +147,7 @@ export const Navbar = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Button
+            {/* <Button
               isExternal
               as={Link}
               className="text-sm font-normal text-default-600 bg-default-100"
@@ -155,7 +156,7 @@ export const Navbar = () => {
               variant="flat"
             >
               Sponsor
-            </Button>
+            </Button> */}
           </motion.div>
         </NavbarItem>
       </NavbarContent>

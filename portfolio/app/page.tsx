@@ -4,16 +4,17 @@ import { Link } from "@heroui/link";
 import { Button } from "@heroui/button";
 import { Image } from "@heroui/react";
 import { button as buttonStyles } from "@heroui/theme";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@heroui/modal";
+import { Card } from "@heroui/react";
+// import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@heroui/modal";
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
-import { GithubIcon, LinkedInIcon } from "@/components/icons";
+import { GithubIcon, LattesIcon, LinkedInIcon } from "@/components/icons";
 import ScrollToTop from "@/components/scroll-to-top";
 
 export default function Home() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
 
   // Refs para os containers de miniaturas
   const thumbnailsRef1 = useRef(null);
@@ -201,137 +202,184 @@ export default function Home() {
   }, [selectedImg3Index]);
 
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-16 md:py-24 ">
-      <motion.div className="w-full max-w-5xl flex flex-col md:flex-row items-center gap-8"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.7, delay: 0.3 }}>
-        <div className="flex-1 text-left md:pr-8">
-          <h1 className={title({ class: "mb-4" })}>
-            Olá, eu sou{" "}<br></br>
-            <span className={title({ color: "blue" })}>João Pedro Zampoli</span>
-          </h1>
-          <p className={subtitle({ class: "mb-8 max-w-lg" })}>
-            Desenvolvedor de Software apaixonado por jogos, tecnologia e mais algumas coisas.
-            <br/>Criando soluções e realizando ideias em código com dedicação e criatividade.
-          </p>
-          
-          <div className="flex flex-wrap gap-4">
-            <Button 
-              className={buttonStyles({
-                color: "primary",
-                radius: "full",
-                variant: "shadow",
-                size: "lg"
-              })}
-              onPress={onOpen}
-            >
-              Currículo/Resumé
-            </Button>
-            
-            <Modal isOpen={isOpen} onClose={onClose}>
-              <ModalContent>
-                <ModalHeader className="flex flex-col gap-1">Selecione a versão do currículo</ModalHeader>
-                <ModalBody>
-                  <p className="mb-4 text-default-500">
-                    Escolha em qual idioma você deseja visualizar ou baixar o currículo:
-                  </p>
-                  <div className="flex flex-col gap-3">
-                    <Button 
-                      as={Link}
-                      href="/resume/Curriculo - Online Version - JoaoPedroZampoli.pdf" 
-                      target="_blank"
-                      className={buttonStyles({
-                        color: "primary",
-                        variant: "flat",
-                        radius: "md",
-                        size: "lg",
-                        fullWidth: true
-                      })}
-                    >
-                      <div className="flex items-center justify-center gap-2">
-                        <span>Português (Brasil)</span>
-                        <span className="text-lg">🇧🇷</span>
-                      </div>
-                    </Button>
-                    <Button 
-                      as={Link}
-                      href="/resume/Resume - Online Version - JoaoPedroZampoli.pdf" 
-                      target="_blank"
-                      className={buttonStyles({
-                        color: "secondary",
-                        variant: "flat",
-                        radius: "md",
-                        size: "lg",
-                        fullWidth: true
-                      })}
-                    >
-                      <div className="flex items-center justify-center gap-2">
-                        <span>English (International)</span>
-                        <span className="text-lg">🇺🇰</span>
-                      </div>
-                    </Button>
-                  </div>
-                </ModalBody>
-                <ModalFooter>
-                  <Button 
-                    className={buttonStyles({
-                      color: "danger",
-                      variant: "light",
-                      radius: "md"
-                    })}
-                    onPress={onClose}
-                  >
-                    Fechar
-                  </Button>
-                </ModalFooter>
-              </ModalContent>
-            </Modal>
-            
-            <Button
-              as={Link}
-              href="/projects"
-              className={buttonStyles({
-                variant: "bordered",
-                radius: "full",
-                size: "lg"
-              })}
-            >
-              Ver projetos
-            </Button>
-          </div>
-          
-          <div className="flex items-center gap-6 mt-8">
-            <Link isExternal href={siteConfig.links.github} aria-label="GitHub">
-              <div className="flex items-center gap-2">
-                <GithubIcon size={24} className="text-default-600" />
-                <span className="text-sm font-medium text-default-600">GitHub</span>
-              </div>
-            </Link>
-            <Link isExternal href={siteConfig.links.linkedin} aria-label="LinkedIn">
-              <div className="flex items-center gap-2">
-                <LinkedInIcon size={24} className="text-default-600" />
-                <span className="text-sm font-medium text-default-600">LinkedIn</span>
-              </div>
-            </Link>
-          </div>
-        </div>
+    // <section className="flex flex-col items-center justify-center gap-4 py-16 md:py-24 ">
+    <section className="flex flex-col items-center justify-center">
+      {/* Hero Section - Full Viewport */}
+      <div className="min-h-screen w-full p-16 flex items-center justify-center relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 via-teal-900/5 to-indigo-900/5"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.1),transparent_50%)]"></div>
         
-        <div className="flex-1 flex justify-center w-full md:w-auto">
-          <div className="relative w-72 h-72 sm:w-80 sm:h-80 rounded-full bg-gradient-to-bl from-sky-400 to-indigo-900 p-1">
-            <div className="absolute inset-1 rounded-full overflow-hidden bg-background flex items-center justify-center">
-              <Image
-                src="https://avatars.githubusercontent.com/u/107592828?s=400&u=97107e6083eac30f35ab3b4db8fc44ed0ca64f82&v=4"
-                alt="João Pedro Zampoli"
-                className="w-full h-full object-cover filter brightness-90"
-                width={320}
-                height={320}
+        {/* Gradiente de transição para o preto (dark) e para o claro (light) */}
+        <div className="block dark:hidden pointer-events-none absolute bottom-0 left-0 w-full h-20 z-20" style={{background: 'linear-gradient(to bottom, transparent, #fff 90%)'}} />
+        <div className="hidden dark:block pointer-events-none absolute bottom-0 left-0 w-full h-20 z-20" style={{background: 'linear-gradient(to bottom, transparent, #000 90%)'}} />
+
+        <motion.div className="w-full mx-auto px-6 flex flex-col lg:flex-row items-center gap-16 relative z-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.2 }}>
+          
+          <div className="flex-1 text-center lg:text-left space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}>
+              <p className="text-sm uppercase tracking-widest text-default-500 mb-4 font-medium">
+                Desenvolvedor de Software
+              </p>
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                <span className="text-default-900">Olá, eu sou</span>
+                <br />
+                <span className="bg-gradient-to-r from-blue-500 via-teal-500 to-blue-600 bg-clip-text text-transparent">
+                  João Pedro Zampoli
+                </span>
+                <br />
+              </h1>
+            </motion.div>
+
+            <motion.div 
+            className="flex lg:hidden flex-1 justify-center w-full lg:w-auto"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.6 }}>
+            <div className="relative">
+              <div className="w-80 h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-blue-500 via-teal-500 to-blue-600 p-1 shadow-2xl">
+                <div className="w-full h-full rounded-full overflow-hidden bg-background flex items-center justify-center">
+                  <Image
+                    src="/MyPhoto.jpg"
+                    alt="João Pedro Zampoli"
+                    className="w-full h-full object-contain"
+                    width={384}
+                    height={384}
+                  />
+                </div>
+              </div>
+              
+              {/* Floating Elements */}
+              <motion.div 
+                className="absolute -top-4 -right-4 w-20 h-20 bg-blue-500/20 rounded-full blur-xl"
+                animate={{ y: [-10, 10, -10] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.div 
+                className="absolute -bottom-6 -left-6 w-16 h-16 bg-teal-500/20 rounded-full blur-xl"
+                animate={{ y: [10, -10, 10] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               />
             </div>
+          </motion.div>
+            
+            <motion.p 
+              className="text-lg md:text-xl text-default-600 max-w-2xl leading-relaxed"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}>
+              Desenvolvedor de Software apaixonado por jogos, tecnologia e mais algumas coisas de forma a criar soluções e realizar ideias em código com dedicação e criatividade.
+            </motion.p>
+            
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}>
+              <Button
+                as={Link}
+                href="/about"
+                className={buttonStyles({
+                  color: "primary",
+                  variant: "shadow",
+                  radius: "full",
+                  size: "lg"
+                })}
+              >
+                Sobre Mim
+              </Button>
+              
+              <Button
+                as={Link}
+                href="/projects"
+                className={buttonStyles({
+                  variant: "bordered",
+                  radius: "full",
+                  size: "lg"
+                })}
+              >
+                Ver Projetos
+              </Button>
+            </motion.div>
+            
+            <motion.div 
+              className="flex items-center gap-8 justify-center lg:justify-start"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1 }}>
+              <Link isExternal href={siteConfig.links.github} aria-label="GitHub">
+                <div className="flex items-center gap-3 group">
+                  <div className="p-2 rounded-full bg-default-100 group-hover:bg-default-200 transition-colors">
+                    <GithubIcon size={20} className="text-default-700" />
+                  </div>
+                  <span className="text-sm font-medium text-default-600 group-hover:text-default-900 transition-colors">
+                    GitHub
+                  </span>
+                </div>
+              </Link>
+              <Link isExternal href={siteConfig.links.linkedin} aria-label="LinkedIn">
+                <div className="flex items-center gap-3 group">
+                  <div className="p-2 rounded-full bg-default-100 group-hover:bg-default-200 transition-colors">
+                    <LinkedInIcon size={20} className="text-default-700" />
+                  </div>
+                  <span className="text-sm font-medium text-default-600 group-hover:text-default-900 transition-colors">
+                    LinkedIn
+                  </span>
+                </div>
+              </Link>
+              <Link isExternal href={siteConfig.links.lattes} aria-label="Lattes">
+                <div className="flex items-center gap-3 group">
+                  <div className="p-2 rounded-full bg-default-100 group-hover:bg-default-200 transition-colors">
+                    <LattesIcon size={20} className="text-default-700" />
+                  </div>
+                  <span className="text-sm font-medium text-default-600 group-hover:text-default-900 transition-colors">
+                    Lattes
+                  </span>
+                </div>
+              </Link>
+            </motion.div>
           </div>
-        </div>
-      </motion.div>
+          
+          <motion.div 
+            className="hidden lg:flex flex-1 justify-center w-full lg:w-auto"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.6 }}>
+            <div className="relative">
+              <div className="w-80 h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-blue-500 via-teal-500 to-blue-600 p-1 shadow-2xl">
+                <div className="w-full h-full rounded-full overflow-hidden bg-background flex items-center justify-center">
+                  <Image
+                    src="/MyPhoto.jpg"
+                    alt="João Pedro Zampoli"
+                    className="w-full h-full object-cover"
+                    width={384}
+                    height={384}
+                  />
+                </div>
+              </div>
+              
+              {/* Floating Elements */}
+              <motion.div 
+                className="absolute -top-4 -right-4 w-20 h-20 bg-blue-500/20 rounded-full blur-xl"
+                animate={{ y: [-10, 10, -10] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.div 
+                className="absolute -bottom-6 -left-6 w-16 h-16 bg-teal-500/20 rounded-full blur-xl"
+                animate={{ y: [10, -10, 10] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
       
       {/* <div className="w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 p-6 rounded-xl bg-default-50 border border-default-200">
         <div className="flex flex-col items-center md:items-start p-4">
@@ -352,13 +400,47 @@ export default function Home() {
         </div>
       </div> */}
 
-      <motion.div className="w-full max-w-5xl mt-24 mb-12"
+      <motion.div className="w-full max-w-6xl mt-24 mb-12"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.7, delay: 0.3 }}
         >
-        <h2 className={title({ size: "md", class: "mb-8 text-center block" })}>Alguns Projetos</h2>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-default-50/50 to-transparent"></div>
+        
+        <motion.div 
+          className="w-full max-w-7xl mx-auto px-6 relative z-10"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.8 }}>
+          
+          <div className="text-center mb-20">
+            <motion.p 
+              className="text-sm uppercase tracking-widest text-default-500 mb-4 font-medium"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}>
+              Portfólio
+            </motion.p>
+            <motion.h2 
+              className="text-3xl md:text-5xl font-bold text-default-900 mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}>
+              Projetos em Destaque
+            </motion.h2>
+            <motion.p 
+              className="text-lg text-default-600 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}>
+              Uma seleção de alguns dos meus trabalhos
+            </motion.p>
+          </div>
         
         <div className="space-y-16">
           <motion.div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-600/10 border border-white/10 backdrop-blur-sm"
@@ -742,8 +824,55 @@ export default function Home() {
             Ver mais projetos
           </Button>
         </div>
+        </motion.div>
       </motion.div>
-      
+      <motion.div className="w-full max-w-7xl mx-auto pb-8"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.7, delay: 0.4 }}
+      >      
+          <Card className="w-full p-8 text-center">
+            <motion.div className="mb-6">
+              <h2 className={title({ size: "md", class: "mb-4" })}>
+                Vamos Trabalhar Juntos?
+              </h2>
+              <p className="text-lg text-default-600 max-w-2xl mx-auto">
+                Estou sempre aberto a novas oportunidades e projetos desafiadores. 
+                Entre em contato e vamos criar algo incrível!
+              </p>
+            </motion.div>
+            
+            <motion.div 
+              className="flex flex-wrap justify-center gap-4"
+            >
+              <Button
+                as={Link}
+                href={siteConfig.links.linkedin}
+                isExternal
+                size="lg"
+                color="primary"
+                variant="flat"
+                startContent={<LinkedInIcon size={20} />}
+                className="font-medium"
+              >
+                LinkedIn
+              </Button>
+              <Button
+                as={Link}
+                href={siteConfig.links.github}
+                isExternal
+                size="lg"
+                color="secondary"
+                variant="flat"
+                startContent={<GithubIcon size={20} />}
+                className="font-medium"
+              >
+                GitHub
+              </Button>
+            </motion.div>
+          </Card>
+        </motion.div>      
       {/* <motion.div className="w-full max-w-4xl mt-24 mb-12" 
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}

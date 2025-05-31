@@ -41,8 +41,9 @@ export const siteConfig = {
   ],
   links: {
     github: "https://github.com/JoaoPedroZampoli",
-    docs: "https://heroui.com",
+    repo: "https://github.com/JoaoPedroZampoli/Portfolio",
     linkedin: "https://www.linkedin.com/in/joaopedrozampoli/",
-    sponsor: "https://patreon.com/jrgarciadev",
+    lattes: "http://lattes.cnpq.br/2122344284482660",
+    sponsor: "sem link",
   },
 };

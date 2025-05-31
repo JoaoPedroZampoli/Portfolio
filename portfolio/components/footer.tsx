@@ -8,6 +8,7 @@ import {
   LinkedInIcon,
   HeartFilledIcon,
   Logo,
+  LattesIcon,
 } from "@/components/icons";
 
 export const Footer = () => {
@@ -32,6 +33,9 @@ export const Footer = () => {
               </Link>
               <Link isExternal href={siteConfig.links.github} aria-label="GitHub">
                 <GithubIcon className="text-default-500 hover:text-black dark:hover:text-white transition-colors" />
+              </Link>
+              <Link isExternal href={siteConfig.links.lattes} aria-label="Lattes">
+                <LattesIcon className="text-default-500 hover:text-black dark:hover:text-white transition-colors" />
               </Link>
             </div>
           </div>
@@ -58,8 +62,8 @@ export const Footer = () => {
             <h3 className="font-semibold text-foreground mb-4">Recursos</h3>
             <ul className="space-y-2">
               <li>
-                <Link href={siteConfig.links.docs} isExternal className="text-default-500 hover:text-primary text-sm">
-                  Documentação
+                <Link href={siteConfig.links.repo} isExternal className="text-default-500 hover:text-primary text-sm">
+                  Repositório do Portfólio
                 </Link>
               </li>
               <li>
