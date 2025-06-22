@@ -275,7 +275,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}>
-              Desenvolvedor de Software apaixonado por jogos, tecnologia e mais algumas coisas de forma a criar soluções e realizar ideias em código com dedicação e criatividade.
+              Desenvolvedor de Software, apaixonado por jogos, tecnologia e outras áreas, com o objetivo de criar soluções e transformar ideias em código, com dedicação e criatividade.
             </motion.p>
             
             <motion.div 
@@ -991,7 +991,6 @@ export default function Home() {
           </Button>
         </div>
       </motion.div> */}
-      
       <ScrollToTop />
     </section>
   );

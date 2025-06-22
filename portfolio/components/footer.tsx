@@ -9,6 +9,7 @@ import {
   HeartFilledIcon,
   Logo,
   LattesIcon,
+  TerminalIcon,
 } from "@/components/icons";
 
 export const Footer = () => {
@@ -21,7 +22,7 @@ export const Footer = () => {
           {/* Logo e descrição */}
           <div className="col-span-1 md:col-span-1">
             <NextLink href="/" className="flex items-center gap-2 mb-4">
-              <Logo size={30} />
+              <TerminalIcon size={30} />
               <p className="font-bold text-inherit">João Pedro Zampoli</p>
             </NextLink>
             <p className="text-sm text-default-500 mb-4">

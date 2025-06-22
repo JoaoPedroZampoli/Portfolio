@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Navbar as HeroUINavbar,
   NavbarContent,
@@ -23,6 +23,7 @@ import { ThemeSwitch } from "@/components/theme-switch";
 import {
   GithubIcon,
   LinkedInIcon,
+  TerminalIcon,
   HeartFilledIcon,
   SearchIcon,
   Logo,
@@ -30,6 +31,13 @@ import {
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [displayText, setDisplayText] = useState("João Pedro Zampoli");
+  const [isTyping, setIsTyping] = useState(false);
+
+  const fullText = "João Pedro Zampoli";
+  const typingSpeed = 100;
+  const deletingSpeed = 50;
+  const pauseTime = 1000;
 
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -37,6 +45,36 @@ export const Navbar = () => {
 
   const handleMenuItemClick = () => {
     setIsMenuOpen(false);
+  };
+
+  const startTypewriterEffect = () => {
+    if (isTyping) return;
+    setIsTyping(true);
+    
+    // First, delete the current text
+    let currentText = fullText;
+    const deleteInterval = setInterval(() => {
+      if (currentText.length > 0) {
+        currentText = currentText.slice(0, -1);
+        setDisplayText(currentText);
+      } else {
+        clearInterval(deleteInterval);
+        
+        // Then, type it back
+        let typedText = "";
+        const typeInterval = setInterval(() => {
+          if (typedText.length < fullText.length) {
+            typedText += fullText[typedText.length];
+            setDisplayText(typedText);
+          } else {
+            clearInterval(typeInterval);
+            setTimeout(() => {
+              setIsTyping(false);
+            }, pauseTime);
+          }
+        }, typingSpeed);
+      }
+    }, deletingSpeed);
   };
 
   // const searchInput = (
@@ -78,10 +116,14 @@ export const Navbar = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            onHoverStart={startTypewriterEffect}
           >
             <NextLink className="flex justify-start items-center gap-1" href="/">
-              <Logo />
-              <p className="font-bold text-foreground transition-colors duration-300">João Pedro Zampoli</p>
+              <TerminalIcon />
+              <p className="font-bold text-foreground transition-colors duration-300 min-w-[200px]">
+                {displayText}
+                <span className={`${isTyping ? 'animate-pulse' : 'opacity-0'} text-primary`}>|</span>
+              </p>
             </NextLink>
           </motion.div>
         </NavbarBrand>
