@@ -29,25 +29,13 @@ export const Footer = () => {
               {siteConfig.description}
             </p>
             <div className="flex gap-4">
-              <Link
-                isExternal
-                href={siteConfig.links.linkedin}
-                aria-label="LinkedIn"
-              >
+              <Link isExternal href={siteConfig.links.linkedin} aria-label="LinkedIn">
                 <LinkedInIcon className="text-default-500 hover:text-primary transition-colors" />
               </Link>
-              <Link
-                isExternal
-                href={siteConfig.links.github}
-                aria-label="GitHub"
-              >
+              <Link isExternal href={siteConfig.links.github} aria-label="GitHub">
                 <GithubIcon className="text-default-500 hover:text-black dark:hover:text-white transition-colors" />
               </Link>
-              <Link
-                isExternal
-                href={siteConfig.links.lattes}
-                aria-label="Lattes"
-              >
+              <Link isExternal href={siteConfig.links.lattes} aria-label="Lattes">
                 <LattesIcon className="text-default-500 hover:text-black dark:hover:text-white transition-colors" />
               </Link>
             </div>
@@ -55,13 +43,11 @@ export const Footer = () => {
 
           {/* Links rápidos */}
           <div className="col-span-1">
-            <h3 className="font-semibold text-foreground mb-4">
-              Links Rápidos
-            </h3>
+            <h3 className="font-semibold text-foreground mb-4">Links Rápidos</h3>
             <ul className="space-y-2">
               {siteConfig.navItems.map((item) => (
                 <li key={item.href}>
-                  <NextLink
+                  <NextLink 
                     href={item.href}
                     className="text-default-500 hover:text-primary text-sm transition-colors"
                   >
@@ -77,36 +63,22 @@ export const Footer = () => {
             <h3 className="font-semibold text-foreground mb-4">Recursos</h3>
             <ul className="space-y-2">
               <li>
-                <Link
-                  href={siteConfig.links.repo}
-                  isExternal
-                  className="text-default-500 hover:text-primary text-sm"
-                >
+                <Link href={siteConfig.links.repo} isExternal className="text-default-500 hover:text-primary text-sm">
                   Repositório do Portfólio
                 </Link>
               </li>
               <li>
-                <Link
-                  href="#"
-                  className="text-default-500 hover:text-primary text-sm"
-                >
+                <Link href="#" className="text-default-500 hover:text-primary text-sm">
                   Tutoriais
                 </Link>
               </li>
               <li>
-                <Link
-                  href="#"
-                  className="text-default-500 hover:text-primary text-sm"
-                >
+                <Link href="#" className="text-default-500 hover:text-primary text-sm">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link
-                  href={siteConfig.links.sponsor}
-                  isExternal
-                  className="flex items-center gap-1 text-default-500 hover:text-primary text-sm"
-                >
+                <Link href={siteConfig.links.sponsor} isExternal className="flex items-center gap-1 text-default-500 hover:text-primary text-sm">
                   <span>Patrocinar</span>
                   <HeartFilledIcon size={14} className="text-danger" />
                 </Link>
@@ -119,17 +91,16 @@ export const Footer = () => {
             <h3 className="font-semibold text-foreground mb-4">Contato</h3>
             <ul className="space-y-2">
               <li>
-                <Link
-                  href="mailto:contato@exemplo.com"
-                  className="text-default-500 hover:text-primary text-sm"
-                >
+                <Link href="mailto:contato@exemplo.com" className="text-default-500 hover:text-primary text-sm">
                   joaopedro.zampoli@gmail.com
                 </Link>
               </li>
               {/* <li className="text-default-500 text-sm">
                 
               </li> */}
-              <li className="text-default-500 text-sm">Jacareí, SP - Brasil</li>
+              <li className="text-default-500 text-sm">
+                Jacareí, SP - Brasil
+              </li>
             </ul>
           </div>
         </div>
@@ -141,16 +112,10 @@ export const Footer = () => {
             &copy; {currentYear} - Feito por João Pedro Zampoli
           </p>
           <div className="flex gap-6 mt-4 md:mt-0">
-            <Link
-              href="#"
-              className="text-default-500 hover:text-primary text-sm"
-            >
+            <Link href="#" className="text-default-500 hover:text-primary text-sm">
               Termos de Serviço
             </Link>
-            <Link
-              href="#"
-              className="text-default-500 hover:text-primary text-sm"
-            >
+            <Link href="#" className="text-default-500 hover:text-primary text-sm">
               Política de Privacidade
             </Link>
           </div>

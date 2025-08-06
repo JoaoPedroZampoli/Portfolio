@@ -2,8 +2,7 @@ export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
   name: "João Pedro Zampoli - Dev",
-  description:
-    "Portfólio pessoal de João Pedro Zampoli, desenvolvedor de software e entusiasta da tecnologia.",
+  description: "Portfólio pessoal de João Pedro Zampoli, desenvolvedor de software e entusiasta da tecnologia.",
   navItems: [
     {
       label: "Home",

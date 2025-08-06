@@ -17,23 +17,22 @@ export default function Home() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
 
   // Refs para os containers de miniaturas
-  const thumbnailsRef1 = useRef<HTMLDivElement>(null);
-  const thumbnailsRef2 = useRef<HTMLDivElement>(null);
-  const thumbnailsRef3 = useRef<HTMLDivElement>(null);
+  const thumbnailsRef1 = useRef(null);
+  const thumbnailsRef2 = useRef(null);
+  const thumbnailsRef3 = useRef(null);
 
   // Refs para as imagens principais (para touch)
-  const imageRef1 = useRef<HTMLDivElement>(null);
-  const imageRef2 = useRef<HTMLDivElement>(null);
-  const imageRef3 = useRef<HTMLDivElement>(null);
+  const imageRef1 = useRef(null);
+  const imageRef2 = useRef(null);
+  const imageRef3 = useRef(null);
 
   // Estados para touch handling e animação
   const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
   const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
-  const [currentDragGallery, setCurrentDragGallery] = useState<number | null>(
-    null,
-  );
+  const [currentDragGallery, setCurrentDragGallery] = useState(null);
+
 
   // Dados das imagens de projetos
   const projeto1Imagens = [
@@ -44,7 +43,7 @@ export default function Home() {
     "https://picsum.photos/seed/projeto1-5/1920/1080",
     "https://picsum.photos/seed/projeto1-6/1920/1080",
     "https://picsum.photos/seed/projeto1-7/1920/1080",
-    "https://picsum.photos/seed/projeto1-8/1920/1080",
+    "https://picsum.photos/seed/projeto1-8/1920/1080"
   ];
 
   const projeto2Imagens = [
@@ -55,7 +54,7 @@ export default function Home() {
     "https://picsum.photos/seed/projeto2-5/1920/1080",
     "https://picsum.photos/seed/projeto2-6/1920/1080",
     "https://picsum.photos/seed/projeto2-7/1920/1080",
-    "https://picsum.photos/seed/projeto2-8/1920/1080",
+    "https://picsum.photos/seed/projeto2-8/1920/1080"
   ];
 
   const projeto3Imagens = [
@@ -66,7 +65,7 @@ export default function Home() {
     "https://picsum.photos/seed/projeto3-5/1920/1080",
     "https://picsum.photos/seed/projeto3-6/1920/1080",
     "https://picsum.photos/seed/projeto3-7/1920/1080",
-    "https://picsum.photos/seed/projeto3-8/1920/1080",
+    "https://picsum.photos/seed/projeto3-8/1920/1080"
   ];
 
   // Estados para imagens selecionadas
@@ -75,96 +74,84 @@ export default function Home() {
   const [selectedImg3Index, setSelectedImg3Index] = useState(0);
 
   // Funções de navegação das galerias
-  const navigateGallery = (
-    galleryIndex: number,
-    direction: "next" | "prev",
-  ) => {
+  const navigateGallery = (galleryIndex, direction) => {
     if (galleryIndex === 1) {
-      const nextIndex =
-        direction === "next"
-          ? (selectedImg1Index + 1) % projeto1Imagens.length
-          : (selectedImg1Index - 1 + projeto1Imagens.length) %
-            projeto1Imagens.length;
+      const nextIndex = direction === 'next' 
+        ? (selectedImg1Index + 1) % projeto1Imagens.length
+        : (selectedImg1Index - 1 + projeto1Imagens.length) % projeto1Imagens.length;
       setSelectedImg1Index(nextIndex);
     } else if (galleryIndex === 2) {
-      const nextIndex =
-        direction === "next"
-          ? (selectedImg2Index + 1) % projeto2Imagens.length
-          : (selectedImg2Index - 1 + projeto2Imagens.length) %
-            projeto2Imagens.length;
+      const nextIndex = direction === 'next' 
+        ? (selectedImg2Index + 1) % projeto2Imagens.length
+        : (selectedImg2Index - 1 + projeto2Imagens.length) % projeto2Imagens.length;
       setSelectedImg2Index(nextIndex);
     } else if (galleryIndex === 3) {
-      const nextIndex =
-        direction === "next"
-          ? (selectedImg3Index + 1) % projeto3Imagens.length
-          : (selectedImg3Index - 1 + projeto3Imagens.length) %
-            projeto3Imagens.length;
+      const nextIndex = direction === 'next' 
+        ? (selectedImg3Index + 1) % projeto3Imagens.length
+        : (selectedImg3Index - 1 + projeto3Imagens.length) % projeto3Imagens.length;
       setSelectedImg3Index(nextIndex);
     }
   };
 
-  const handleTouchStart = (
-    e: React.TouchEvent<HTMLDivElement>,
-    galleryIndex: number,
-  ) => {
+  const handleTouchStart = (e, galleryIndex) => {
     setTouchEnd({ x: 0, y: 0 });
     setTouchStart({
-      x: e.touches[0].clientX,
-      y: e.touches[0].clientY,
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY
     });
     setIsDragging(true);
     setCurrentDragGallery(galleryIndex);
     setDragOffset(0);
   };
 
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+  const handleTouchMove = (e) => {
     if (!isDragging) return;
-
-    const currentX = e.touches[0].clientX;
-    const currentY = e.touches[0].clientY;
-
+    
+    const currentX = e.targetTouches[0].clientX;
+    const currentY = e.targetTouches[0].clientY;
+    
     setTouchEnd({
       x: currentX,
-      y: currentY,
+      y: currentY
     });
 
     const distanceX = touchStart.x - currentX;
     const distanceY = touchStart.y - currentY;
     const isVerticalSwipe = Math.abs(distanceY) > Math.abs(distanceX);
-
+    
     // Se for swipe vertical, não fazer nada
     if (isVerticalSwipe) return;
-
+    
     // Calcular o offset para a animação (limitado para não sair muito da tela)
     const maxOffset = 100;
     const offset = Math.max(-maxOffset, Math.min(maxOffset, -distanceX * 0.5));
     setDragOffset(offset);
   };
 
-  const handleTouchEnd = (galleryIndex: number) => {
+  const handleTouchEnd = (galleryIndex) => {
     if (!touchStart.x || !touchEnd.x) {
       setIsDragging(false);
       setDragOffset(0);
       setCurrentDragGallery(null);
       return;
     }
-
+    
     const distanceX = touchStart.x - touchEnd.x;
     const distanceY = touchStart.y - touchEnd.y;
     const isLeftSwipe = distanceX > 50;
     const isRightSwipe = distanceX < -50;
     const isVerticalSwipe = Math.abs(distanceY) > Math.abs(distanceX);
-
+    
     // Ignora swipes verticais
     if (!isVerticalSwipe) {
       if (isLeftSwipe) {
-        navigateGallery(galleryIndex, "next");
+        navigateGallery(galleryIndex, 'next');
       }
       if (isRightSwipe) {
-        navigateGallery(galleryIndex, "prev");
+        navigateGallery(galleryIndex, 'prev');
       }
     }
-
+    
     // Reset dos estados
     setIsDragging(false);
     setDragOffset(0);
@@ -172,17 +159,17 @@ export default function Home() {
   };
 
   // Função para rolar até a miniatura selecionada
-  const scrollToThumbnail = (galleryIndex: number, index: number) => {
+  const scrollToThumbnail = (galleryIndex, index) => {
     let thumbnailsRef;
-
+    
     if (galleryIndex === 1) thumbnailsRef = thumbnailsRef1;
     else if (galleryIndex === 2) thumbnailsRef = thumbnailsRef2;
     else if (galleryIndex === 3) thumbnailsRef = thumbnailsRef3;
-
+    
     if (thumbnailsRef?.current) {
       const container = thumbnailsRef.current;
-      const thumbnails = container.querySelectorAll("button");
-
+      const thumbnails = container.querySelectorAll('button');
+      
       if (thumbnails[index]) {
         // Rolar para a miniatura selecionada
         const thumbnail = thumbnails[index];
@@ -191,7 +178,7 @@ export default function Home() {
     }
   };
 
-  const handleThumbnailClick = (galleryIndex: number, index: number) => {
+  const handleThumbnailClick = (galleryIndex, index) => {
     if (galleryIndex === 1) {
       setSelectedImg1Index(index);
     } else if (galleryIndex === 2) {
@@ -223,33 +210,21 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 via-teal-900/5 to-indigo-900/5"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_50%)]"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.1),transparent_50%)]"></div>
-
+        
         {/* Gradiente de transição para o preto (dark) e para o claro (light) */}
-        <div
-          className="block dark:hidden pointer-events-none absolute bottom-0 left-0 w-full h-20 z-20"
-          style={{
-            background: "linear-gradient(to bottom, transparent, #fff 90%)",
-          }}
-        />
-        <div
-          className="hidden dark:block pointer-events-none absolute bottom-0 left-0 w-full h-20 z-20"
-          style={{
-            background: "linear-gradient(to bottom, transparent, #000 90%)",
-          }}
-        />
+        <div className="block dark:hidden pointer-events-none absolute bottom-0 left-0 w-full h-20 z-20" style={{background: 'linear-gradient(to bottom, transparent, #fff 90%)'}} />
+        <div className="hidden dark:block pointer-events-none absolute bottom-0 left-0 w-full h-20 z-20" style={{background: 'linear-gradient(to bottom, transparent, #000 90%)'}} />
 
-        <motion.div
-          className="w-full mx-auto px-6 flex flex-col lg:flex-row items-center gap-16 relative z-10"
+        <motion.div className="w-full mx-auto px-6 flex flex-col lg:flex-row items-center gap-16 relative z-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.2 }}
-        >
+          transition={{ duration: 1, delay: 0.2 }}>
+          
           <div className="flex-1 text-center lg:text-left space-y-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
+              transition={{ duration: 0.8, delay: 0.4 }}>
               <p className="text-sm uppercase tracking-widest text-default-500 mb-4 font-medium">
                 Desenvolvedor de Software
               </p>
@@ -263,64 +238,51 @@ export default function Home() {
               </h1>
             </motion.div>
 
-            <motion.div
-              className="flex lg:hidden flex-1 justify-center w-full lg:w-auto"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.6 }}
-            >
-              <div className="relative">
-                <div className="w-80 h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-blue-500 via-teal-500 to-blue-600 p-1 shadow-2xl">
-                  <div className="w-full h-full rounded-full overflow-hidden bg-background flex items-center justify-center">
-                    <Image
-                      src="/MyPhoto.jpg"
-                      alt="João Pedro Zampoli"
-                      className="w-full h-full object-contain"
-                      width={384}
-                      height={384}
-                    />
-                  </div>
+            <motion.div 
+            className="flex lg:hidden flex-1 justify-center w-full lg:w-auto"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.6 }}>
+            <div className="relative">
+              <div className="w-80 h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-blue-500 via-teal-500 to-blue-600 p-1 shadow-2xl">
+                <div className="w-full h-full rounded-full overflow-hidden bg-background flex items-center justify-center">
+                  <Image
+                    src="/MyPhoto.jpg"
+                    alt="João Pedro Zampoli"
+                    className="w-full h-full object-contain"
+                    width={384}
+                    height={384}
+                  />
                 </div>
-
-                {/* Floating Elements */}
-                <motion.div
-                  className="absolute -top-4 -right-4 w-20 h-20 bg-blue-500/20 rounded-full blur-xl"
-                  animate={{ y: [-10, 10, -10] }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
-                <motion.div
-                  className="absolute -bottom-6 -left-6 w-16 h-16 bg-teal-500/20 rounded-full blur-xl"
-                  animate={{ y: [10, -10, 10] }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
               </div>
-            </motion.div>
-
-            <motion.p
+              
+              {/* Floating Elements */}
+              <motion.div 
+                className="absolute -top-4 -right-4 w-20 h-20 bg-blue-500/20 rounded-full blur-xl"
+                animate={{ y: [-10, 10, -10] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.div 
+                className="absolute -bottom-6 -left-6 w-16 h-16 bg-teal-500/20 rounded-full blur-xl"
+                animate={{ y: [10, -10, 10] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </div>
+          </motion.div>
+            
+            <motion.p 
               className="text-lg md:text-xl text-default-600 max-w-2xl leading-relaxed"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              Desenvolvedor de Software, apaixonado por jogos, tecnologia e
-              outras áreas, com o objetivo de criar soluções e transformar
-              ideias em código, com dedicação e criatividade.
+              transition={{ duration: 0.8, delay: 0.6 }}>
+              Desenvolvedor de Software, apaixonado por jogos, tecnologia e outras áreas, com o objetivo de criar soluções e transformar ideias em código, com dedicação e criatividade.
             </motion.p>
-
-            <motion.div
+            
+            <motion.div 
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-            >
+              transition={{ duration: 0.8, delay: 0.8 }}>
               <Button
                 as={Link}
                 href="/contact"
@@ -328,36 +290,31 @@ export default function Home() {
                   color: "primary",
                   variant: "shadow",
                   radius: "full",
-                  size: "lg",
+                  size: "lg"
                 })}
               >
                 Contato
               </Button>
-
+              
               <Button
                 as={Link}
                 href="/projects"
                 className={buttonStyles({
                   variant: "bordered",
                   radius: "full",
-                  size: "lg",
+                  size: "lg"
                 })}
               >
                 Ver Projetos
               </Button>
             </motion.div>
-
-            <motion.div
+            
+            <motion.div 
               className="flex items-center gap-8 justify-center lg:justify-start"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1 }}
-            >
-              <Link
-                isExternal
-                href={siteConfig.links.github}
-                aria-label="GitHub"
-              >
+              transition={{ duration: 0.8, delay: 1 }}>
+              <Link isExternal href={siteConfig.links.github} aria-label="GitHub">
                 <div className="flex items-center gap-3 group">
                   <div className="p-2 rounded-full bg-default-100 group-hover:bg-default-200 transition-colors">
                     <GithubIcon size={20} className="text-default-700" />
@@ -367,11 +324,7 @@ export default function Home() {
                   </span>
                 </div>
               </Link>
-              <Link
-                isExternal
-                href={siteConfig.links.linkedin}
-                aria-label="LinkedIn"
-              >
+              <Link isExternal href={siteConfig.links.linkedin} aria-label="LinkedIn">
                 <div className="flex items-center gap-3 group">
                   <div className="p-2 rounded-full bg-default-100 group-hover:bg-default-200 transition-colors">
                     <LinkedInIcon size={20} className="text-default-700" />
@@ -381,11 +334,7 @@ export default function Home() {
                   </span>
                 </div>
               </Link>
-              <Link
-                isExternal
-                href={siteConfig.links.lattes}
-                aria-label="Lattes"
-              >
+              <Link isExternal href={siteConfig.links.lattes} aria-label="Lattes">
                 <div className="flex items-center gap-3 group">
                   <div className="p-2 rounded-full bg-default-100 group-hover:bg-default-200 transition-colors">
                     <LattesIcon size={20} className="text-default-700" />
@@ -397,13 +346,12 @@ export default function Home() {
               </Link>
             </motion.div>
           </div>
-
-          <motion.div
+          
+          <motion.div 
             className="hidden lg:flex flex-1 justify-center w-full lg:w-auto"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.6 }}
-          >
+            transition={{ duration: 1, delay: 0.6 }}>
             <div className="relative">
               <div className="w-80 h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-blue-500 via-teal-500 to-blue-600 p-1 shadow-2xl">
                 <div className="w-full h-full rounded-full overflow-hidden bg-background flex items-center justify-center">
@@ -416,31 +364,23 @@ export default function Home() {
                   />
                 </div>
               </div>
-
+              
               {/* Floating Elements */}
-              <motion.div
+              <motion.div 
                 className="absolute -top-4 -right-4 w-20 h-20 bg-blue-500/20 rounded-full blur-xl"
                 animate={{ y: [-10, 10, -10] }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               />
-              <motion.div
+              <motion.div 
                 className="absolute -bottom-6 -left-6 w-16 h-16 bg-teal-500/20 rounded-full blur-xl"
                 animate={{ y: [10, -10, 10] }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               />
             </div>
           </motion.div>
         </motion.div>
       </div>
-
+      
       {/* <div className="w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 p-6 rounded-xl bg-default-50 border border-default-200">
         <div className="flex flex-col items-center md:items-start p-4">
           <p className={title({ size: "sm", color: "blue", class: "mb-1" })}>3+</p>
@@ -460,626 +400,484 @@ export default function Home() {
         </div>
       </div> */}
 
-      <motion.div
-        className="w-full max-w-6xl mt-24 mb-12"
+      <motion.div className="w-full max-w-6xl mt-24 mb-12"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.7, delay: 0.3 }}
-      >
+        >
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-default-50/50 to-transparent"></div>
-
-        <motion.div
+        
+        <motion.div 
           className="w-full max-w-7xl mx-auto px-6 relative z-10"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.8 }}
-        >
+          transition={{ duration: 0.8 }}>
+          
           <div className="text-center mb-20">
-            <motion.p
+            <motion.p 
               className="text-sm uppercase tracking-widest text-default-500 mb-4 font-medium"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+              transition={{ duration: 0.6 }}>
               Portfólio
             </motion.p>
-            <motion.h2
+            <motion.h2 
               className="text-3xl md:text-5xl font-bold text-default-900 mb-6"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
+              transition={{ duration: 0.6, delay: 0.1 }}>
               Projetos em Destaque
             </motion.h2>
-            <motion.p
+            <motion.p 
               className="text-lg text-default-600 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
+              transition={{ duration: 0.6, delay: 0.2 }}>
               Uma seleção de alguns dos meus trabalhos
             </motion.p>
           </div>
-
-          <div className="space-y-16">
-            <motion.div
-              className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-600/10 border border-white/10 backdrop-blur-sm"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-            >
-              <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10"></div>
-              <div className="flex flex-col md:flex-row p-6 gap-8">
-                <div className="flex-1 space-y-3">
-                  <div
-                    className="aspect-video rounded-lg overflow-hidden relative group"
-                    onTouchStart={(e) => handleTouchStart(e, 1)}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={() => handleTouchEnd(1)}
-                  >
-                    <motion.div
-                      animate={{
-                        x:
-                          isDragging && currentDragGallery === 1
-                            ? dragOffset
-                            : 0,
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: isDragging ? 0 : 400,
-                        damping: isDragging ? 0 : 30,
-                      }}
-                    >
-                      <Image
-                        src={projeto1Imagens[selectedImg1Index]}
-                        alt="Screenshot do Projeto 1"
-                        className="w-full h-full object-cover transition-transform duration-500"
-                        width={800}
-                      />
-                    </motion.div>
-
-                    {/* Botões de navegação */}
-                    <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                      <button
-                        onClick={() => navigateGallery(1, "prev")}
-                        className="bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
-                        aria-label="Imagem anterior"
-                      >
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M12.5 15L7.5 10L12.5 5"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </button>
-
-                      <button
-                        onClick={() => navigateGallery(1, "next")}
-                        className="bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
-                        aria-label="Próxima imagem"
-                      >
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M7.5 15L12.5 10L7.5 5"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-
-                    {/* Indicador de paginação */}
-                    <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 z-10">
-                      {projeto1Imagens.map((_, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setSelectedImg1Index(index)}
-                          className={`w-2 h-2 rounded-full transition-colors ${selectedImg1Index === index ? "bg-white" : "bg-white/40"}`}
-                          aria-label={`Ir para imagem ${index + 1}`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  <div
-                    ref={thumbnailsRef1}
-                    className="flex overflow-x-auto py-1 hide-scrollbar scroll-smooth"
-                  >
-                    {projeto1Imagens.map((imgSrc, index) => (
-                      <button
-                        key={index}
-                        className={`flex-shrink-0 h-14 rounded-medium overflow-hidden border-2 transition-all duration-300 ${
-                          index === 0 ? "ml-1" : "ml-2"
-                        } ${selectedImg1Index === index ? "border-primary scale-105 shadow-lg" : "border-transparent opacity-70 hover:opacity-90 hover:scale-102"}`}
-                        onClick={() => setSelectedImg1Index(index)}
-                      >
-                        <Image
-                          src={imgSrc}
-                          alt={`Miniatura ${index + 1}`}
-                          className="w-full h-full object-cover rounded-md"
-                          height={56}
-                        />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className={title({ size: "sm", class: "mb-2" })}>
-                      Gato, o jogo
-                    </h3>
-                    <p className={subtitle({ class: "mb-4 text-sm" })}>
-                      Mini-game feito em Unity
-                    </p>
-                    <p className="text-default-600 mb-6 text-sm">
-                      Este mini-game chamado intencionalmente de "Gato, o jogo",
-                      criado em um período curto de um mês, inspira-se em jogos
-                      clássicos de 2D plataforma (como Mario, Rayman, entre
-                      outros).
-                      <br />O jogador assume o papel de um gato à procura de seu
-                      sachê.
-                    </p>
-                  </div>
-
-                  <div>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      <span className="px-4 py-2 text-xs font-medium rounded-full bg-gray-600/20 text-gray-500">
-                        Unity
-                      </span>
-                      <span className="px-4 py-2 text-xs font-medium rounded-full bg-purple-600/20 text-purple-500">
-                        C#
-                      </span>
-                      <span className="px-4 py-2 text-xs font-medium rounded-full bg-yellow-600/20 text-yellow-500">
-                        Game Dev
-                      </span>
-                    </div>
-                    <Button
-                      as={Link}
-                      href="#"
-                      className={buttonStyles({
-                        color: "primary",
-                        radius: "md",
-                        variant: "solid",
-                        size: "lg",
-                        fullWidth: true,
-                      })}
-                    >
-                      Ver Projeto
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="relative overflow-hidden rounded-xl bg-gradient-to-br from-green-500/10 to-blue-600/10 border border-white/10 backdrop-blur-sm"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-            >
-              <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10"></div>
-              <div className="flex flex-col md:flex-row p-6 gap-8">
-                <div className="flex-1 space-y-3">
-                  <div
-                    className="aspect-video rounded-lg overflow-hidden relative group"
-                    onTouchStart={(e) => handleTouchStart(e, 2)}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={() => handleTouchEnd(2)}
-                  >
-                    <motion.div
-                      animate={{
-                        x:
-                          isDragging && currentDragGallery === 2
-                            ? dragOffset
-                            : 0,
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: isDragging ? 0 : 400,
-                        damping: isDragging ? 0 : 30,
-                      }}
-                    >
-                      <Image
-                        src={projeto2Imagens[selectedImg2Index]}
-                        alt="Screenshot do Projeto 2"
-                        className="w-full h-full object-cover transition-transform duration-500"
-                        width={800}
-                      />
-                    </motion.div>
-
-                    {/* Botões de navegação */}
-                    <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                      <button
-                        onClick={() => navigateGallery(2, "prev")}
-                        className="bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
-                        aria-label="Imagem anterior"
-                      >
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M12.5 15L7.5 10L12.5 5"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </button>
-
-                      <button
-                        onClick={() => navigateGallery(2, "next")}
-                        className="bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
-                        aria-label="Próxima imagem"
-                      >
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M7.5 15L12.5 10L7.5 5"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-
-                    {/* Indicador de paginação */}
-                    <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 z-10">
-                      {projeto2Imagens.map((_, index) => (
-                        <button
-                          key={index}
-                          onClick={() => handleThumbnailClick(2, index)}
-                          className={`w-2 h-2 rounded-full transition-colors ${selectedImg2Index === index ? "bg-white" : "bg-white/40"}`}
-                          aria-label={`Ir para imagem ${index + 1}`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  <div
-                    ref={thumbnailsRef2}
-                    className="flex overflow-x-auto space-x-2 py-1 hide-scrollbar scroll-smooth"
-                  >
-                    {projeto2Imagens.map((imgSrc, index) => (
-                      <button
-                        key={index}
-                        className={`flex-shrink-0 h-14 rounded-medium overflow-hidden border-2 transition-all duration-300 ${selectedImg2Index === index ? "border-primary scale-105 shadow-lg" : "border-transparent opacity-70 hover:opacity-90 hover:scale-102"}`}
-                        onClick={() => handleThumbnailClick(2, index)}
-                      >
-                        <Image
-                          src={imgSrc}
-                          alt={`Miniatura ${index + 1}`}
-                          className="w-full h-full object-cover rounded-md"
-                          height={56}
-                        />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className={title({ size: "sm", class: "mb-2" })}>
-                      VApt
-                    </h3>
-                    <p className={subtitle({ class: "mb-4 text-sm" })}>
-                      Plataforma que visa a melhoria da acessibilidade em ônibus
-                      públicos
-                    </p>
-                    <p className="text-default-600 mb-6 text-sm">
-                      O software faz o mapeamento entre as classificações dos
-                      níveis de deficiência e as adequações necessárias para que
-                      os passageiros utilizem o sistema de transporte público da
-                      melhor forma possível.
-                      <br />
-                      Os dados e informações a serem utilizados neste projeto
-                      são da EMTU (atualmente ARTESP), parceira deste projeto de
-                      extensão.
-                    </p>
-                  </div>
-
-                  <div>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      <span className="px-4 py-2 text-xs font-medium rounded-full bg-emerald-600/20 text-emerald-500">
-                        Vue
-                      </span>
-                      <span className="px-4 py-2 text-xs font-medium rounded-full bg-blue-600/20 text-blue-500">
-                        TypeScript
-                      </span>
-                      <span className="px-4 py-2 text-xs font-medium rounded-full bg-yellow-600/20 text-yellow-500">
-                        Web Development
-                      </span>
-                    </div>
-                    <Button
-                      as={Link}
-                      href="https://www.codelab-unifesp.org/projetos"
-                      className={buttonStyles({
-                        color: "primary",
-                        radius: "md",
-                        variant: "solid",
-                        size: "lg",
-                        fullWidth: true,
-                      })}
-                    >
-                      Ver Projeto
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500/10 to-indigo-600/10 border border-white/10 backdrop-blur-sm"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-            >
-              <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10"></div>
-              <div className="flex flex-col md:flex-row p-6 gap-8">
-                <div className="flex-1 space-y-3">
-                  <div
-                    className="aspect-video rounded-lg overflow-hidden relative group"
-                    onTouchStart={(e) => handleTouchStart(e, 3)}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={() => handleTouchEnd(3)}
-                  >
-                    <motion.div
-                      animate={{
-                        x:
-                          isDragging && currentDragGallery === 3
-                            ? dragOffset
-                            : 0,
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: isDragging ? 0 : 400,
-                        damping: isDragging ? 0 : 30,
-                      }}
-                    >
-                      <Image
-                        src={projeto3Imagens[selectedImg3Index]}
-                        alt="Screenshot do Projeto 3"
-                        className="w-full h-full object-cover transition-transform duration-500"
-                        width={800}
-                      />
-                    </motion.div>
-
-                    {/* Botões de navegação */}
-                    <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                      <button
-                        onClick={() => navigateGallery(3, "prev")}
-                        className="bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
-                        aria-label="Imagem anterior"
-                      >
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M12.5 15L7.5 10L12.5 5"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </button>
-
-                      <button
-                        onClick={() => navigateGallery(3, "next")}
-                        className="bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
-                        aria-label="Próxima imagem"
-                      >
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M7.5 15L12.5 10L7.5 5"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-
-                    {/* Indicador de paginação */}
-                    <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 z-10">
-                      {projeto3Imagens.map((_, index) => (
-                        <button
-                          key={index}
-                          onClick={() => handleThumbnailClick(3, index)}
-                          className={`w-2 h-2 rounded-full transition-all duration-300 ${selectedImg3Index === index ? "bg-white scale-125" : "bg-white/40 hover:bg-white/60"}`}
-                          aria-label={`Ir para imagem ${index + 1}`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  <div
-                    ref={thumbnailsRef3}
-                    className="flex overflow-x-auto space-x-2 py-1 hide-scrollbar scroll-smooth"
-                  >
-                    {projeto3Imagens.map((imgSrc, index) => (
-                      <button
-                        key={index}
-                        className={`flex-shrink-0 h-14 rounded-medium overflow-hidden border-2 transition-all duration-300 ${selectedImg3Index === index ? "border-primary scale-105 shadow-lg" : "border-transparent opacity-70 hover:opacity-90 hover:scale-102"}`}
-                        onClick={() => handleThumbnailClick(3, index)}
-                      >
-                        <Image
-                          src={imgSrc}
-                          alt={`Miniatura ${index + 1}`}
-                          className="w-full h-full object-cover rounded-md"
-                          height={56}
-                        />
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className={title({ size: "sm", class: "mb-2" })}>
-                      Kerana: Firehose Origins
-                    </h3>
-                    <p className={subtitle({ class: "mb-4 text-sm" })}>
-                      Jogo de RPG 2D feito na Unity
-                    </p>
-                    <p className="text-default-600 mb-6 text-sm">
-                      Protótipo de Jogo criado para a disciplina eletiva de
-                      Desenvolvimento de Jogos do ICT - Unifesp.
-                      <br /> Em Kerana: Firehose Origins, você assume o papel de
-                      Kerana, uma jovem onça que, em busca de vingança, embarca
-                      em uma jornada épica para derrotar o vilão que destruiu
-                      sua vila e matou sua família.
-                    </p>
-                  </div>
-
-                  <div>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      <span className="px-4 py-2 text-xs font-medium rounded-full bg-gray-600/20 text-gray-500">
-                        Unity
-                      </span>
-                      <span className="px-4 py-2 text-xs font-medium rounded-full bg-purple-600/20 text-purple-500">
-                        C#
-                      </span>
-                      <span className="px-4 py-2 text-xs font-medium rounded-full bg-yellow-600/20 text-yellow-500">
-                        Game Dev
-                      </span>
-                    </div>
-                    <Button
-                      as={Link}
-                      href="#"
-                      target="_blank"
-                      className={buttonStyles({
-                        color: "primary",
-                        radius: "md",
-                        variant: "solid",
-                        size: "lg",
-                        fullWidth: true,
-                      })}
-                    >
-                      Ver Projeto
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
-          <motion.div
-            className="flex justify-center mt-10"
+        
+        <div className="space-y-16">
+          <motion.div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-600/10 border border-white/10 backdrop-blur-sm"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-          >
-            <Button
-              as={Link}
-              href="/projects"
-              className={buttonStyles({
-                color: "primary",
-                radius: "full",
-                variant: "flat",
-                size: "md",
-              })}
-            >
-              Ver mais projetos
-            </Button>
+            transition={{ duration: 0.7, delay: 0.3 }}>
+            <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10"></div>
+            <div className="flex flex-col md:flex-row p-6 gap-8">
+              <div className="flex-1 space-y-3">
+                <div className="aspect-video rounded-lg overflow-hidden relative group"
+                  onTouchStart={(e) => handleTouchStart(e, 1)}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={() => handleTouchEnd(1)}>
+                  <motion.div
+                    animate={{
+                      x: isDragging && currentDragGallery === 1 ? dragOffset : 0,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: isDragging ? 0 : 400,
+                      damping: isDragging ? 0 : 30,
+                    }}
+                  >
+                    <Image
+                      src={projeto1Imagens[selectedImg1Index]}
+                      alt="Screenshot do Projeto 1"
+                      className="w-full h-full object-cover transition-transform duration-500"
+                      width={800}
+                    />
+                  </motion.div>
+                  
+                  {/* Botões de navegação */}
+                  <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                    <button 
+                      onClick={() => navigateGallery(1, 'prev')}
+                      className="bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
+                      aria-label="Imagem anterior"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                    
+                    <button 
+                      onClick={() => navigateGallery(1, 'next')}
+                      className="bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
+                      aria-label="Próxima imagem"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                  
+                  {/* Indicador de paginação */}
+                  <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 z-10">
+                    {projeto1Imagens.map((_, index) => (
+                      <button 
+                        key={index} 
+                        onClick={() => setSelectedImg1Index(index)}
+                        className={`w-2 h-2 rounded-full transition-colors ${selectedImg1Index === index ? 'bg-white' : 'bg-white/40'}`}
+                        aria-label={`Ir para imagem ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+                
+                <div 
+                  ref={thumbnailsRef1}
+                  className="flex overflow-x-auto py-1 hide-scrollbar scroll-smooth"
+                >
+                  {projeto1Imagens.map((imgSrc, index) => (
+                     <button 
+                        key={index}
+                        className={`flex-shrink-0 h-14 rounded-medium overflow-hidden border-2 transition-all duration-300 ${
+                          index === 0 ? 'ml-1' : 'ml-2'
+                        } ${selectedImg1Index === index ? 'border-primary scale-105 shadow-lg' : 'border-transparent opacity-70 hover:opacity-90 hover:scale-102'}`}
+                        onClick={() => setSelectedImg1Index(index)}
+                      >
+                      <Image 
+                        src={imgSrc}
+                        alt={`Miniatura ${index + 1}`}
+                        className="w-full h-full object-cover rounded-md"
+                        height={56}
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className={title({ size: "sm", class: "mb-2" })}>Gato, o jogo</h3>
+                  <p className={subtitle({ class: "mb-4 text-sm" })}>Mini-game feito em Unity</p>
+                  <p className="text-default-600 mb-6 text-sm">
+                  Este mini-game chamado intencionalmente de "Gato, o jogo", criado em um período curto de um mês, inspira-se em jogos clássicos de 2D plataforma (como Mario, Rayman, entre outros).
+                  <br/>O jogador assume o papel de um gato à procura de seu sachê.
+                  </p>
+                </div>
+                
+                <div>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="px-4 py-2 text-xs font-medium rounded-full bg-gray-600/20 text-gray-500">Unity</span>
+                    <span className="px-4 py-2 text-xs font-medium rounded-full bg-purple-600/20 text-purple-500">C#</span>
+                    <span className="px-4 py-2 text-xs font-medium rounded-full bg-yellow-600/20 text-yellow-500">Game Dev</span>
+                  </div>
+                  <Button 
+                    as={Link}
+                    href="#" 
+                    className={buttonStyles({
+                      color: "primary",
+                      radius: "md",
+                      variant: "solid",
+                      size: "lg",
+                      fullWidth: true
+                    })}
+                  >
+                    Ver Projeto
+                  </Button>
+                </div>
+              </div>
+            </div>
           </motion.div>
+          
+          <motion.div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-green-500/10 to-blue-600/10 border border-white/10 backdrop-blur-sm"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, delay: 0.3 }}>
+            <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10"></div>
+            <div className="flex flex-col md:flex-row p-6 gap-8">
+              <div className="flex-1 space-y-3">
+                <div className="aspect-video rounded-lg overflow-hidden relative group"
+                  onTouchStart={(e) => handleTouchStart(e, 2)}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={() => handleTouchEnd(2)}>
+                  <motion.div
+                    animate={{
+                      x: isDragging && currentDragGallery === 2 ? dragOffset : 0,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: isDragging ? 0 : 400,
+                      damping: isDragging ? 0 : 30,
+                    }}
+                  >
+                    <Image
+                      src={projeto2Imagens[selectedImg2Index]}
+                      alt="Screenshot do Projeto 2"
+                      className="w-full h-full object-cover transition-transform duration-500"
+                      width={800}
+                    />
+                  </motion.div>
+                  
+                  {/* Botões de navegação */}
+                  <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                    <button 
+                      onClick={() => navigateGallery(2, 'prev')}
+                      className="bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
+                      aria-label="Imagem anterior"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                    
+                    <button 
+                      onClick={() => navigateGallery(2, 'next')}
+                      className="bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
+                      aria-label="Próxima imagem"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                  
+                  {/* Indicador de paginação */}
+                  <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 z-10">
+                    {projeto2Imagens.map((_, index) => (
+                      <button 
+                        key={index} 
+                        onClick={() => handleThumbnailClick(2, index)}
+                        className={`w-2 h-2 rounded-full transition-colors ${selectedImg2Index === index ? 'bg-white' : 'bg-white/40'}`}
+                        aria-label={`Ir para imagem ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+                
+                <div 
+                  ref={thumbnailsRef2}
+                  className="flex overflow-x-auto space-x-2 py-1 hide-scrollbar scroll-smooth"
+                >
+                  {projeto2Imagens.map((imgSrc, index) => (
+                    <button 
+                      key={index}
+                      className={`flex-shrink-0 h-14 rounded-medium overflow-hidden border-2 transition-all duration-300 ${selectedImg2Index === index ? 'border-primary scale-105 shadow-lg' : 'border-transparent opacity-70 hover:opacity-90 hover:scale-102'}`}
+                      onClick={() => handleThumbnailClick(2, index)}
+                    >
+                      <Image 
+                        src={imgSrc}
+                        alt={`Miniatura ${index + 1}`}
+                        className="w-full h-full object-cover rounded-md"
+                        height={56}
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className={title({ size: "sm", class: "mb-2" })}>VApt</h3>
+                  <p className={subtitle({ class: "mb-4 text-sm" })}>Plataforma que visa a melhoria da acessibilidade em ônibus públicos</p>
+                  <p className="text-default-600 mb-6 text-sm">
+                  O software faz o mapeamento entre as classificações dos níveis de deficiência e as adequações necessárias para que os passageiros utilizem o sistema de transporte público da melhor forma possível.
+                  <br/>Os dados e informações a serem utilizados neste projeto são da EMTU (atualmente ARTESP), parceira deste projeto de extensão.
+                  </p>
+                </div>
+                
+                <div>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="px-4 py-2 text-xs font-medium rounded-full bg-emerald-600/20 text-emerald-500">Vue</span>
+                    <span className="px-4 py-2 text-xs font-medium rounded-full bg-blue-600/20 text-blue-500">TypeScript</span>
+                    <span className="px-4 py-2 text-xs font-medium rounded-full bg-yellow-600/20 text-yellow-500">Web Development</span>
+                  </div>
+                  <Button 
+                    as={Link}
+                    href="https://www.codelab-unifesp.org/projetos" 
+                    className={buttonStyles({
+                      color: "primary",
+                      radius: "md",
+                      variant: "solid",
+                      size: "lg",
+                      fullWidth: true
+                    })}
+                  >
+                    Ver Projeto
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+          
+          <motion.div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500/10 to-indigo-600/10 border border-white/10 backdrop-blur-sm"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, delay: 0.3 }}>
+            <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10"></div>
+            <div className="flex flex-col md:flex-row p-6 gap-8">
+              <div className="flex-1 space-y-3">
+                <div className="aspect-video rounded-lg overflow-hidden relative group"
+                  onTouchStart={(e) => handleTouchStart(e, 3)}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={() => handleTouchEnd(3)}>
+                  <motion.div
+                    animate={{
+                      x: isDragging && currentDragGallery === 3 ? dragOffset : 0,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: isDragging ? 0 : 400,
+                      damping: isDragging ? 0 : 30,
+                    }}
+                  >
+                    <Image
+                      src={projeto3Imagens[selectedImg3Index]}
+                      alt="Screenshot do Projeto 3"
+                      className="w-full h-full object-cover transition-transform duration-500"
+                      width={800}
+                    />
+                  </motion.div>
+                  
+                  {/* Botões de navegação */}
+                  <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                    <button 
+                      onClick={() => navigateGallery(3, 'prev')}
+                      className="bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
+                      aria-label="Imagem anterior"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                    
+                    <button 
+                      onClick={() => navigateGallery(3, 'next')}
+                      className="bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
+                      aria-label="Próxima imagem"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                  
+                  {/* Indicador de paginação */}
+                  <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 z-10">
+                    {projeto3Imagens.map((_, index) => (
+                      <button 
+                        key={index} 
+                        onClick={() => handleThumbnailClick(3, index)}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${selectedImg3Index === index ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/60'}`}
+                        aria-label={`Ir para imagem ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+                
+                <div 
+                  ref={thumbnailsRef3}
+                  className="flex overflow-x-auto space-x-2 py-1 hide-scrollbar scroll-smooth"
+                >
+                  {projeto3Imagens.map((imgSrc, index) => (
+                    <button 
+                      key={index}
+                      className={`flex-shrink-0 h-14 rounded-medium overflow-hidden border-2 transition-all duration-300 ${selectedImg3Index === index ? 'border-primary scale-105 shadow-lg' : 'border-transparent opacity-70 hover:opacity-90 hover:scale-102'}`}
+                      onClick={() => handleThumbnailClick(3, index)}
+                    >
+                      <Image 
+                        src={imgSrc}
+                        alt={`Miniatura ${index + 1}`}
+                        className="w-full h-full object-cover rounded-md"
+                        height={56}
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className={title({ size: "sm", class: "mb-2" })}>Kerana: Firehose Origins</h3>
+                  <p className={subtitle({ class: "mb-4 text-sm" })}>Jogo de RPG 2D feito na Unity</p>
+                  <p className="text-default-600 mb-6 text-sm">
+                    Protótipo de Jogo criado para a disciplina eletiva de Desenvolvimento de Jogos do ICT - Unifesp.
+                    <br/> Em Kerana: Firehose Origins, você assume o papel de Kerana, uma jovem onça que, em busca de vingança, embarca em uma jornada épica para derrotar o vilão que destruiu sua vila e matou sua família.
+                  </p>
+                </div>
+                
+                <div>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="px-4 py-2 text-xs font-medium rounded-full bg-gray-600/20 text-gray-500">Unity</span>
+                    <span className="px-4 py-2 text-xs font-medium rounded-full bg-purple-600/20 text-purple-500">C#</span>
+                    <span className="px-4 py-2 text-xs font-medium rounded-full bg-yellow-600/20 text-yellow-500">Game Dev</span>
+                  </div>
+                  <Button 
+                    as={Link}
+                    href="#" 
+                    target="_blank"
+                    className={buttonStyles({
+                      color: "primary",
+                      radius: "md",
+                      variant: "solid",
+                      size: "lg",
+                      fullWidth: true
+                    })}
+                  >
+                    Ver Projeto
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+        
+        <motion.div className="flex justify-center mt-10"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+        >
+          <Button 
+            as={Link}
+            href="/projects"
+            className={buttonStyles({
+              color: "primary", 
+              radius: "full",
+              variant: "flat",
+              size: "md"
+            })}
+          >
+            Ver mais projetos
+          </Button>
+        </motion.div>
         </motion.div>
       </motion.div>
-      <motion.div
-        className="w-full max-w-7xl mx-auto pb-8"
+      <motion.div className="w-full max-w-7xl mx-auto pb-8"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.7, delay: 0.4 }}
-      >
-        <Card className="w-full p-8 text-center">
-          <motion.div className="mb-6">
-            <h2 className={title({ size: "md", class: "mb-4" })}>
-              Vamos Trabalhar Juntos?
-            </h2>
-            <p className="text-lg text-default-600 max-w-2xl mx-auto">
-              Estou sempre aberto a novas oportunidades e projetos desafiadores.
-              Entre em contato e vamos criar algo incrível!
-            </p>
-          </motion.div>
-
-          <motion.div className="flex flex-wrap justify-center gap-4">
-            <Button
-              as={Link}
-              href={siteConfig.links.linkedin}
-              isExternal
-              size="lg"
-              color="primary"
-              variant="flat"
-              startContent={<LinkedInIcon size={20} />}
-              className="font-medium"
+      >      
+          <Card className="w-full p-8 text-center">
+            <motion.div className="mb-6">
+              <h2 className={title({ size: "md", class: "mb-4" })}>
+                Vamos Trabalhar Juntos?
+              </h2>
+              <p className="text-lg text-default-600 max-w-2xl mx-auto">
+                Estou sempre aberto a novas oportunidades e projetos desafiadores. 
+                Entre em contato e vamos criar algo incrível!
+              </p>
+            </motion.div>
+            
+            <motion.div 
+              className="flex flex-wrap justify-center gap-4"
             >
-              LinkedIn
-            </Button>
-            <Button
-              as={Link}
-              href={siteConfig.links.github}
-              isExternal
-              size="lg"
-              color="secondary"
-              variant="flat"
-              startContent={<GithubIcon size={20} />}
-              className="font-medium"
-            >
-              GitHub
-            </Button>
-          </motion.div>
-        </Card>
-      </motion.div>
+              <Button
+                as={Link}
+                href={siteConfig.links.linkedin}
+                isExternal
+                size="lg"
+                color="primary"
+                variant="flat"
+                startContent={<LinkedInIcon size={20} />}
+                className="font-medium"
+              >
+                LinkedIn
+              </Button>
+              <Button
+                as={Link}
+                href={siteConfig.links.github}
+                isExternal
+                size="lg"
+                color="secondary"
+                variant="flat"
+                startContent={<GithubIcon size={20} />}
+                className="font-medium"
+              >
+                GitHub
+              </Button>
+            </motion.div>
+          </Card>
+        </motion.div>      
       {/* <motion.div className="w-full max-w-4xl mt-24 mb-12" 
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}

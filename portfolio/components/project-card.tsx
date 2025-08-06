@@ -2,7 +2,7 @@
 
 import { Card, CardBody, Button, Chip } from "@heroui/react";
 import { motion } from "framer-motion";
-import { Project } from "@/types";
+import { Project } from "@/types/project";
 import { Github, ExternalLink, Calendar, Star, Code } from "lucide-react";
 import { useState } from "react";
 
@@ -22,28 +22,28 @@ export const ProjectCard = ({ project, index = 0 }: ProjectCardProps) => {
       transition: {
         duration: 0.4,
         delay: index * 0.05,
-        ease: [0.21, 1.11, 0.81, 0.99],
-      },
-    },
+        ease: [0.21, 1.11, 0.81, 0.99]
+      }
+    }
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("pt-BR", {
-      year: "numeric",
-      month: "short",
+    return new Date(dateString).toLocaleDateString('pt-BR', {
+      year: 'numeric',
+      month: 'short'
     });
   };
 
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       university: "bg-blue-500",
-      personal: "bg-emerald-500",
+      personal: "bg-emerald-500", 
       bootcamp: "bg-orange-500",
       portfolio: "bg-purple-500",
       game: "bg-red-500",
       web: "bg-cyan-500",
       "data-science": "bg-indigo-500",
-      "competitive-programming": "bg-yellow-500",
+      "competitive-programming": "bg-yellow-500"
     };
     return colors[category] || "bg-gray-500";
   };
@@ -57,7 +57,7 @@ export const ProjectCard = ({ project, index = 0 }: ProjectCardProps) => {
       game: "🎮",
       web: "🌐",
       "data-science": "📊",
-      "competitive-programming": "🏆",
+      "competitive-programming": "🏆"
     };
     return icons[category] || "📁";
   };
@@ -71,26 +71,24 @@ export const ProjectCard = ({ project, index = 0 }: ProjectCardProps) => {
       onHoverEnd={() => setIsHovered(false)}
       className="group h-full"
     >
-      <Card
+      <Card 
         className="h-full bg-background/60 backdrop-blur-xl border border-divider/20 hover:border-divider/40 transition-all duration-300 hover:shadow-lg overflow-hidden"
         isPressable
       >
         <CardBody className="p-0 h-full flex flex-col">
           {/* Header Strip */}
           <div className={`h-1 ${getCategoryColor(project.category)}`} />
-
+          
           <div className="p-6 flex-1 flex flex-col">
             {/* Top Section */}
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-2">
-                <span className="text-lg">
-                  {getCategoryIcon(project.category)}
-                </span>
+                <span className="text-lg">{getCategoryIcon(project.category)}</span>
                 <span className="text-xs font-medium text-default-500 uppercase tracking-wider">
-                  {project.category.replace("-", " ")}
+                  {project.category.replace('-', ' ')}
                 </span>
               </div>
-
+              
               {project.featured && (
                 <motion.div
                   initial={{ scale: 0 }}
@@ -176,7 +174,7 @@ export const ProjectCard = ({ project, index = 0 }: ProjectCardProps) => {
               >
                 Code
               </Button>
-
+              
               {project.liveUrl && (
                 <Button
                   as="a"
