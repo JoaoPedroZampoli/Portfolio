@@ -25,29 +25,41 @@ export default function Blog() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.1),transparent_50%)]"></div>
 
         {/* Gradiente de transição para o preto (dark) e para o claro (light) */}
-        <div className="block dark:hidden pointer-events-none absolute bottom-0 left-0 w-full h-20 z-20" style={{ background: 'linear-gradient(to bottom, transparent, #fff 90%)' }} />
-        <div className="hidden dark:block pointer-events-none absolute bottom-0 left-0 w-full h-20 z-20" style={{ background: 'linear-gradient(to bottom, transparent, #000 90%)' }} />
+        <div
+          className="block dark:hidden pointer-events-none absolute bottom-0 left-0 w-full h-20 z-20"
+          style={{
+            background: "linear-gradient(to bottom, transparent, #fff 90%)",
+          }}
+        />
+        <div
+          className="hidden dark:block pointer-events-none absolute bottom-0 left-0 w-full h-20 z-20"
+          style={{
+            background: "linear-gradient(to bottom, transparent, #000 90%)",
+          }}
+        />
 
-        <motion.div className="w-full mx-auto px-6 flex flex-col lg:flex-row items-center gap-16 relative z-10"
+        <motion.div
+          className="w-full mx-auto px-6 flex flex-col lg:flex-row items-center gap-16 relative z-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.2 }}>
-
+          transition={{ duration: 1, delay: 0.2 }}
+        >
           <div className="flex-1 text-center lg:text-left space-y-8">
             <motion.div
               className="w-full max-w-7xl mx-auto px-6 relative z-10"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.8 }}>
-
+              transition={{ duration: 0.8 }}
+            >
               <div className="text-center mb-20">
                 <motion.p
                   className="text-sm uppercase tracking-widest text-default-500 mb-4 font-medium"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}>
+                  transition={{ duration: 0.6 }}
+                >
                   Blog
                 </motion.p>
                 <motion.h2
@@ -55,7 +67,8 @@ export default function Blog() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.1 }}>
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
                   Ainda em construção
                 </motion.h2>
                 <motion.p
@@ -63,15 +76,17 @@ export default function Blog() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.2 }}>
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
                   Sob concepção e desenvolvimento
                 </motion.p>
               </div>
             </motion.div>
-            </div>
+          </div>
         </motion.div>
       </div>
-      <motion.div className="w-full max-w-6xl mt-24 mb-12"
+      <motion.div
+        className="w-full max-w-6xl mt-24 mb-12"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.1 }}
@@ -80,6 +95,6 @@ export default function Blog() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-default-50/50 to-transparent"></div>
         <ScrollToTop />
       </motion.div>
-    </section >
+    </section>
   );
 }

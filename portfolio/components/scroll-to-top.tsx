@@ -40,7 +40,7 @@ export default function ScrollToTop() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   };
 
@@ -48,30 +48,30 @@ export default function ScrollToTop() {
     <>
       {isVisible && (
         <Button
-          onClick={scrollToTop}          
-          className={buttonStyles({            
+          onClick={scrollToTop}
+          className={buttonStyles({
             color: "primary",
-            radius: "full", 
+            radius: "full",
             variant: "shadow",
             size: "sm",
-            class: `fixed bottom-6 right-6 w-12 h-16 p-0 z-50 ${animation} hidden md:flex`
+            class: `fixed bottom-6 right-6 w-12 h-16 p-0 z-50 ${animation} hidden md:flex`,
           })}
           aria-label="Voltar ao topo"
         >
-          <svg 
-            width="24" 
-            height="24" 
-            viewBox="0 0 24 24" 
-            fill="none" 
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
             xmlns="http://www.w3.org/2000/svg"
-          >            
-            <path 
-                d="M18 15L12 9L6 15"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                />
+          >
+            <path
+              d="M18 15L12 9L6 15"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </Button>
       )}
