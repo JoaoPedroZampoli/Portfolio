@@ -56,7 +56,7 @@ export default function Projects() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.1 }}>
-                  Projetos em Destaque
+                  Página em Construção
                 </motion.h2>
                 <motion.p
                   className="text-lg text-default-600 max-w-2xl mx-auto"
