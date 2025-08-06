@@ -17,21 +17,21 @@ export default function Home() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
 
   // Refs para os containers de miniaturas
-  const thumbnailsRef1 = useRef(null);
-  const thumbnailsRef2 = useRef(null);
-  const thumbnailsRef3 = useRef(null);
+  const thumbnailsRef1 = useRef<HTMLDivElement>(null);
+  const thumbnailsRef2 = useRef<HTMLDivElement>(null);
+  const thumbnailsRef3 = useRef<HTMLDivElement>(null);
 
   // Refs para as imagens principais (para touch)
-  const imageRef1 = useRef(null);
-  const imageRef2 = useRef(null);
-  const imageRef3 = useRef(null);
+  const imageRef1 = useRef<HTMLDivElement>(null);
+  const imageRef2 = useRef<HTMLDivElement>(null);
+  const imageRef3 = useRef<HTMLDivElement>(null);
 
   // Estados para touch handling e animação
   const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
   const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
-  const [currentDragGallery, setCurrentDragGallery] = useState(null);
+  const [currentDragGallery, setCurrentDragGallery] = useState<number | null>(null);
 
 
   // Dados das imagens de projetos
@@ -74,7 +74,7 @@ export default function Home() {
   const [selectedImg3Index, setSelectedImg3Index] = useState(0);
 
   // Funções de navegação das galerias
-  const navigateGallery = (galleryIndex, direction) => {
+  const navigateGallery = (galleryIndex: number, direction: 'next' | 'prev') => {
     if (galleryIndex === 1) {
       const nextIndex = direction === 'next' 
         ? (selectedImg1Index + 1) % projeto1Imagens.length
@@ -93,7 +93,7 @@ export default function Home() {
     }
   };
 
-  const handleTouchStart = (e, galleryIndex) => {
+  const handleTouchStart = (e: React.TouchEvent, galleryIndex: number) => {
     setTouchEnd({ x: 0, y: 0 });
     setTouchStart({
       x: e.targetTouches[0].clientX,
@@ -104,7 +104,7 @@ export default function Home() {
     setDragOffset(0);
   };
 
-  const handleTouchMove = (e) => {
+  const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return;
     
     const currentX = e.targetTouches[0].clientX;
@@ -128,7 +128,7 @@ export default function Home() {
     setDragOffset(offset);
   };
 
-  const handleTouchEnd = (galleryIndex) => {
+  const handleTouchEnd = (galleryIndex: number) => {
     if (!touchStart.x || !touchEnd.x) {
       setIsDragging(false);
       setDragOffset(0);
@@ -159,12 +159,13 @@ export default function Home() {
   };
 
   // Função para rolar até a miniatura selecionada
-  const scrollToThumbnail = (galleryIndex, index) => {
-    let thumbnailsRef;
+  const scrollToThumbnail = (galleryIndex: number, index: number) => {
+    let thumbnailsRef: React.RefObject<HTMLDivElement>;
     
     if (galleryIndex === 1) thumbnailsRef = thumbnailsRef1;
     else if (galleryIndex === 2) thumbnailsRef = thumbnailsRef2;
     else if (galleryIndex === 3) thumbnailsRef = thumbnailsRef3;
+    else return; // Early return if invalid galleryIndex
     
     if (thumbnailsRef?.current) {
       const container = thumbnailsRef.current;
@@ -178,7 +179,7 @@ export default function Home() {
     }
   };
 
-  const handleThumbnailClick = (galleryIndex, index) => {
+  const handleThumbnailClick = (galleryIndex: number, index: number) => {
     if (galleryIndex === 1) {
       setSelectedImg1Index(index);
     } else if (galleryIndex === 2) {
