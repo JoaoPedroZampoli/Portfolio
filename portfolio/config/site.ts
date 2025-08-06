@@ -17,8 +17,8 @@ export const siteConfig = {
       href: "/blog",
     },
     {
-      label: "Sobre mim",
-      href: "/about",
+      label: "Contato",
+      href: "/contact",
     },
   ],
   navMenuItems: [
@@ -35,8 +35,8 @@ export const siteConfig = {
       href: "/blog",
     },
     {
-      label: "Sobre Mim",
-      href: "/about",
+      label: "Contato",
+      href: "/contact",
     },
   ],
   links: {

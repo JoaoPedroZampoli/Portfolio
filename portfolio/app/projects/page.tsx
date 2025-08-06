@@ -13,7 +13,7 @@ import { title, subtitle } from "@/components/primitives";
 import { GithubIcon, LattesIcon, LinkedInIcon } from "@/components/icons";
 import ScrollToTop from "@/components/scroll-to-top";
 
-export default function Home() {
+export default function Projects() {
   return (
     // <section className="flex flex-col items-center justify-center gap-4 py-16 md:py-24 ">
     <section className="flex flex-col items-center justify-center">

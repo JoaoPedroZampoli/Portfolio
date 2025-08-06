@@ -285,7 +285,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.8 }}>
               <Button
                 as={Link}
-                href="/about"
+                href="/contact"
                 className={buttonStyles({
                   color: "primary",
                   variant: "shadow",
@@ -293,7 +293,7 @@ export default function Home() {
                   size: "lg"
                 })}
               >
-                Sobre Mim
+                Contato
               </Button>
               
               <Button
@@ -671,7 +671,7 @@ export default function Home() {
                   </div>
                   <Button 
                     as={Link}
-                    href="#" 
+                    href="https://www.codelab-unifesp.org/projetos" 
                     className={buttonStyles({
                       color: "primary",
                       radius: "md",
@@ -792,7 +792,7 @@ export default function Home() {
                   </div>
                   <Button 
                     as={Link}
-                    href="https://www.codelab-unifesp.org/project/" 
+                    href="#" 
                     target="_blank"
                     className={buttonStyles({
                       color: "primary",
@@ -810,7 +810,12 @@ export default function Home() {
           </motion.div>
         </div>
         
-        <div className="flex justify-center mt-10">
+        <motion.div className="flex justify-center mt-10"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+        >
           <Button 
             as={Link}
             href="/projects"
@@ -823,7 +828,7 @@ export default function Home() {
           >
             Ver mais projetos
           </Button>
-        </div>
+        </motion.div>
         </motion.div>
       </motion.div>
       <motion.div className="w-full max-w-7xl mx-auto pb-8"

@@ -1,249 +1,253 @@
 "use client";
 
-import { subtitle, title } from "@/components/primitives";
+import { title } from "@/components/primitives";
 import { Button } from "@heroui/button";
 import { motion } from "framer-motion";
 import { button as buttonStyles } from "@heroui/theme";
 import { Link } from "@heroui/link";
 import { Image } from "@heroui/image";
-import { siteConfig } from "@/config/site";
-import { GithubIcon, LinkedInIcon } from "@/components/icons";
+import { Card, CardBody } from "@heroui/card";
+import { Chip } from "@heroui/chip";
 import ScrollToTop from "@/components/scroll-to-top";
-import { Card } from "@heroui/react";
 
 export default function AboutPage() {
-  return (
-    <section className="flex flex-col items-center justify-center gap-4 py-16 md:py-24 ">
-      <motion.div className="w-full flex flex-col md:flex-row items-center gap-8 mb-12"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.7, delay: 0.1 }}>
-        
-        <motion.div className="flex-shrink-0"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-        >
-          <Image
-            isBlurred
-            alt="João Pedro Zampoli"
-            className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:h-100 object-cover"
-            src="/MyPhoto.jpg"
-            radius="lg"
-          />
-        </motion.div>
-        <motion.div className="flex-1 text-center md:text-left">
-          <motion.div>
-            <h1 className={title({ class: "text-center md:text-left" })}>
-              Sobre Mim
-            </h1>
-            <h2 className={subtitle({ class: "text-center md:text-left text-wrap" })}>
-              João Pedro da Silva Zampoli
-              <span className="hidden sm:inline"> - </span>
-              <span className="block sm:inline">Desenvolvedor</span>
-            </h2>
-          </motion.div>
-          {/* <div className="space-y-4 text-default-600 text-lg leading-relaxed">
-            <p>
-              Estudante de Ciência e Tecnologia com ênfase em Ciência da Computação na Unifesp, 
-              apaixonado por tecnologia e desenvolvimento de software.
-            </p>
-            <p>
-              Participando ativamente de alguns projetos de extensão universitária como o <Link href="https://www.codelab-unifesp.org/projetos" className="font-bold text-yellow-500">CodeLab Dev</Link> e o <Link href="https://www.codelab-unifesp.org/codelab-teen" className="font-bold text-teal-500">CodeLab Teen Arduino</Link>.
-            </p>
-            <p>
-              Formado como <span className="text-danger font-medium">Técnico em Desenvolvimento de Sistemas</span> pela Etec de Poá, 
-              com experiência prática em desenvolvimento web e projetos acadêmicos.
-            </p>
-          </div> */}
-          <motion.div className="space-y-4">
-            <Card className="bg-default-50 p-4 rounded-lg shadow-sm border border-default-200">
-              
-            </Card>
+  const skills = [
+    { name: "JavaScript", color: "warning" },
+    { name: "TypeScript", color: "primary" },
+    { name: "React", color: "secondary" },
+    { name: "Next.js", color: "default" },
+    { name: "Node.js", color: "success" },
+    { name: "Python", color: "warning" },
+    { name: "C/C++", color: "danger" },
+    { name: "Unity (C#)", color: "secondary" },
+    { name: "HTML/CSS", color: "primary" },
+    { name: "SQL", color: "default" },
+    { name: "Git", color: "danger" },
+    { name: "Arduino", color: "success" }
+  ];
 
+  const projects = [
+    {
+      title: "ProjetoCEGI",
+      description: "Projeto de Programação de Jogos na Unity Engine (C#) desenvolvido durante o curso do CEGI-Unifesp",
+      tech: ["Unity", "C#", "Game Development"],
+      link: "https://github.com/JoaoPedroZampoli/ProjetoCEGI"
+    },
+    {
+      title: "Sistema de Transporte PcD",
+      description: "Software para melhoria e adequação do transporte público metropolitano para usuários PcD",
+      tech: ["Web Development", "Accessibility", "Public Transport"],
+      link: "#"
+    },
+    {
+      title: "Banco de Dados - Unifesp",
+      description: "Modelos, diagramas e códigos desenvolvidos durante a disciplina de Banco de Dados",
+      tech: ["SQL", "Database Design", "TypeScript"],
+      link: "https://github.com/JoaoPedroZampoli/BD-Unifesp"
+    }
+  ];
+
+  return (
+    <section className="flex flex-col items-center justify-center">
+      {/* Hero Section - Full Viewport */}
+      <div className="min-h-screen w-full p-16 flex items-center justify-center relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 via-teal-900/5 to-indigo-900/5"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(59,130,246,0.1),transparent_50%)]"></div>
+
+        {/* Gradiente de transição para o preto (dark) e para o claro (light) */}
+        <div className="block dark:hidden pointer-events-none absolute bottom-0 left-0 w-full h-20 z-20" style={{ background: 'linear-gradient(to bottom, transparent, #fff 90%)' }} />
+        <div className="hidden dark:block pointer-events-none absolute bottom-0 left-0 w-full h-20 z-20" style={{ background: 'linear-gradient(to bottom, transparent, #000 90%)' }} />
+
+        <motion.div className="w-full max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16 relative z-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.2 }}>
+
+          <div className="flex-1 text-center lg:text-left space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}>
+
+              <motion.p
+                className="text-sm uppercase tracking-widest text-default-500 mb-4 font-medium"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}>
+                Desenvolvedor de Software
+              </motion.p>
+              
+              <motion.h1
+                className="text-4xl md:text-6xl lg:text-7xl font-bold text-default-900 mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}>
+                Olá! Eu sou o<br />
+                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                  João Pedro
+                </span>
+              </motion.h1>
+
+              <motion.div
+                className="space-y-4 text-default-600 text-lg leading-relaxed max-w-2xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}>
+                <p>
+                  Estudante de <span className="text-primary font-semibold">Ciência e Tecnologia com ênfase em Ciência da Computação</span> na Unifesp, 
+                  apaixonado por tecnologia e desenvolvimento de software.
+                </p>
+                <p>
+                  Participando ativamente de projetos de extensão universitária focados em <span className="text-success font-medium">impacto social</span> e <span className="text-warning font-medium">educação tecnológica</span>.
+                </p>
+              </motion.div>
+              
+              <motion.div 
+                className="flex flex-wrap gap-4 mt-8 justify-center lg:justify-start"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}>
+                <Button 
+                  as={Link}
+                  href="https://www.linkedin.com/in/joaopedrozampoli/"
+                  target="_blank"
+                  className={buttonStyles({ color: "primary", radius: "full", variant: "flat", size: "lg" })}
+                >
+                  LinkedIn
+                </Button>
+                <Button 
+                  as={Link}
+                  href="https://github.com/JoaoPedroZampoli"
+                  target="_blank"
+                  className={buttonStyles({ color: "default", radius: "full", variant: "flat", size: "lg" })}
+                >
+                  GitHub
+                </Button>
+                <Button 
+                  as={Link}
+                  href="/resume/Curriculo - Online Version - JoaoPedroZampoli.pdf"
+                  target="_blank"
+                  className={buttonStyles({ color: "secondary", radius: "full", variant: "flat", size: "lg" })}
+                >
+                  Currículo
+                </Button>
+              </motion.div>
+            </motion.div>
+          </div>
+
+          <motion.div 
+            className="flex-shrink-0"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur-lg opacity-20 animate-pulse"></div>
+              <Image
+                isBlurred
+                alt="João Pedro Zampoli"
+                className="relative w-80 h-80 lg:w-96 lg:h-96 object-cover"
+                src="https://avatars.githubusercontent.com/u/107592828?s=400&u=97107e6083eac30f35ab3b4db8fc44ed0ca64f82&v=4"
+                radius="lg"
+              />
+            </div>
           </motion.div>
-          
-          <div className="flex flex-wrap gap-4 mt-8 justify-center md:justify-start">
-            <Link isExternal href={siteConfig.links.github} aria-label="GitHub">
-              <div className="flex items-center gap-2">
-                <GithubIcon size={24} className="text-default-600" />
-                <span className="text-sm font-medium text-default-600">GitHub</span>
-              </div>
-            </Link>
-            <Link isExternal href={siteConfig.links.linkedin} aria-label="LinkedIn">
-              <div className="flex items-center gap-2">
-                <LinkedInIcon size={24} className="text-default-600" />
-                <span className="text-sm font-medium text-default-600">LinkedIn</span>
-              </div>
-            </Link>
-          </div>
         </motion.div>
-      </motion.div>
-      <motion.div className="w-full max-w-4xl mt-24 mb-12" 
+      </div>
+
+      {/* Skills Section */}
+      <motion.div className="w-full max-w-4xl mb-12"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.7, delay: 0.3 }}>
-        <h2 className={title({ size: "md", class: "mb-8 text-center block" })}>Minha Trajetória</h2>
+        transition={{ duration: 0.7, delay: 0.2 }}>
         
-        <div className="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-blue-500 before:via-blue-400 before:to-indigo-600">
-          <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-              <span className="text-white">👨‍🏫</span>
-            </div>
-            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-default-50 p-4 rounded-large shadow-sm border border-default-200">
-              <div className="flex items-center justify-between space-x-2 mb-1">
-                <h3 className="font-bold text-default-900">Coordenador de Planejamento</h3>
-                <time className="text-xs font-semibold text-blue-600 whitespace-nowrap">2024 - 2024</time>
-              </div>
-              <div className="text-default-500 text-sm">
-                <p>Coordenador de Planejamento e Aplicador de Aulas de Arduino dadas para a Escola Estadual (E.E.) Elmano Ferreira Veloso em São José dos Campos</p>
-                <p className="mt-2 text-xs text-cyan-500"><a href="https://www.codelab-unifesp.org/" target="_blank">CodeLab Teen Arduino - Unifesp</a></p>
-              </div>
-            </div>
-          </div>
-          <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-              <span className="text-white">👨‍💻</span>
-            </div>
-            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-default-50 p-4 rounded-large shadow-sm border border-default-200">
-              <div className="flex items-center justify-between space-x-2 mb-1">
-                <h3 className="font-bold text-default-900">Coordenador de Projeto (Bolsista PIBEX)</h3>
-                <time className="text-xs font-semibold text-blue-600 whitespace-nowrap">2024 - Atual</time>
-              </div>
-              <div className="text-default-500 text-sm">
-                <p>Coordenador de Projeto de Extensão para criação de software que visa a melhoria e adequação do transporte público metropolitano para usuários PcD (Pessoa com Deficiência)</p>
-                <p className="mt-2 text-xs text-yellow-400"><a href="https://www.codelab-unifesp.org/" target="_blank">CodeLab Dev - Unifesp</a></p>
-              </div>
-            </div>
-          </div>
-          <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-              <span className="text-white">🎓</span>
-            </div>
-            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-default-50 p-4 rounded-large shadow-sm border border-default-200">
-              <div className="flex items-center justify-between space-x-2 mb-1">
-                <h3 className="font-bold text-default-900">Estudante no ICT - Unifesp</h3>
-                <time className="text-xs font-semibold text-blue-600 whitespace-nowrap">2023 - Atual</time>
-              </div>
-              <div className="text-default-500 text-sm">
-                <p>Cursando Ciência e Tecnologia com ênfase em Ciência da Computação no Instituto de Ciência e Tecnologia da Unifesp em São José dos Campos</p>
-                <p className="mt-2 text-xs text-emerald-500"><a href="https://www.unifesp.br" target="_blank">Unifesp - Universidade Federal de São Paulo</a></p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-500 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-              <span className="text-white">👨‍💻</span>
-            </div>
-            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-default-50 p-4 rounded-large shadow-sm border border-default-200">
-              <div className="flex items-center justify-between space-x-2 mb-1">
-                <h3 className="font-bold text-default-900">Estagiário de Desenvolvimento Web</h3>
-                <time className="text-xs font-semibold text-blue-600 whitespace-nowrap">2022 - 2022</time>
-              </div>
-              <div className="text-default-500 text-sm">
-                <p>Criação e modificações de interfaces de usuário, fluxos de sistema, implementações de APIs</p>
-                <p className="mt-2 text-xs text-blue-500"><a href="https://www.inprint01.com.br/" target="_blank">Inprint Prime</a></p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-400 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-              <span className="text-white">🎓</span>
-            </div>
-            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-default-50 p-4 rounded-large shadow-sm border border-default-200">
-              <div className="flex items-center justify-between space-x-2 mb-1">
-                <h3 className="font-bold text-default-900">Ensino Técnico em Desenvolvimento de Sistemas</h3>
-                <time className="text-xs font-semibold text-blue-600 whitespace-nowrap">2020 - 2022</time>
-              </div>
-              <div className="text-default-500 text-sm">
-                <p>Ensino Técnico integrado ao Ensino Médio.  Análise e projeto de sistemas. Constrói, documenta, realiza testes e mantém sistemas de informação</p>
-                <p className="mt-2 text-xs text-red-500"><a href="https://www.cps.sp.gov.br/etecs/etec-de-poa/" target="_blank">Etec Poá - Escola Técnica Estadual de Poá</a></p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-600 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-              <span className="text-white">💡</span>
-            </div>
-            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-default-50 p-4 rounded-large shadow-sm border border-default-200">
-              <div className="flex items-center justify-between space-x-2 mb-1">
-                <h3 className="font-bold text-default-900">Início na Programação</h3>
-                <time className="text-xs font-semibold text-blue-600 whitespace-nowrap">2015/2016</time>
-              </div>
-              <div className="text-default-500 text-sm">
-                <p>Primeiras tentativas de projetos focados em Desenvolvimento de Games</p>
-                <p className="mt-2 text-xs text-default-400">Autodidatismo e plataformas online</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <h2 className={title({ size: "md", class: "mb-8 text-center" })}>
+          Habilidades Técnicas
+        </h2>
         
-        <div className="flex justify-center mt-10">
-          <Button 
-            as={Link}
-            href="/about"
-            className={buttonStyles({
-              color: "primary", 
-              radius: "full",
-              variant: "flat",
-              size: "md"
-            })}
-          >
-            Ver trajetória completa
-          </Button>
-        </div>
-      </motion.div>
-      <motion.div className="w-full max-w-4xl mx-auto"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.7, delay: 0.4 }}
-      >      
-          <Card className="w-full p-8 text-center">
-            <motion.div className="mb-6">
-              <h2 className={title({ size: "md", class: "mb-4" })}>
-                Vamos Trabalhar Juntos?
-              </h2>
-              <p className="text-lg text-default-600 max-w-2xl mx-auto">
-                Estou sempre aberto a novas oportunidades e projetos desafiadores. 
-                Entre em contato e vamos criar algo incrível!
-              </p>
-            </motion.div>
-            
-            <motion.div 
-              className="flex flex-wrap justify-center gap-4"
+        <div className="flex flex-wrap justify-center gap-3">
+          {skills.map((skill, index) => (
+            <motion.div
+              key={skill.name}
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Button
-                as={Link}
-                href="/projects"
-                size="lg"
-                color="primary"
+              <Chip 
+                color={skill.color as any}
                 variant="flat"
-                className="font-medium"
-              >
-                Ver Projetos
-              </Button>
-              <Button
-                as={Link}
-                href={siteConfig.links.github}
-                isExternal
                 size="lg"
-                color="secondary"
-                variant="flat"
-                startContent={<GithubIcon size={20} />}
-                className="font-medium"
+                className="text-sm font-medium"
               >
-                Contato
-              </Button>
+                {skill.name}
+              </Chip>
             </motion.div>
-          </Card>
-        </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Projects Section */}
+      <motion.div className="w-full max-w-4xl mb-12"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.7, delay: 0.25 }}>
+        
+        <h2 className={title({ size: "md", class: "mb-8 text-center" })}>
+          Projetos em Destaque
+        </h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project, index) => (
+            <motion.div
+              key={project.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+            >
+              <Card className="h-full">
+                <CardBody className="p-6">
+                  <h3 className="text-lg font-bold text-default-900 mb-3">
+                    {project.title}
+                  </h3>
+                  <p className="text-default-600 text-sm mb-4 flex-grow">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tech.map((tech) => (
+                      <Chip 
+                        key={tech}
+                        size="sm" 
+                        variant="dot" 
+                        color="primary"
+                      >
+                        {tech}
+                      </Chip>
+                    ))}
+                  </div>
+                  {project.link !== "#" && (
+                    <Button
+                      as={Link}
+                      href={project.link}
+                      target="_blank"
+                      size="sm"
+                      variant="light"
+                      color="primary"
+                    >
+                      Ver Projeto →
+                    </Button>
+                  )}
+                </CardBody>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
       <ScrollToTop />
     </section>
   );
