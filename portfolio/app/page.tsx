@@ -20,11 +20,13 @@ export default function Home() {
   const thumbnailsRef1 = useRef<HTMLDivElement>(null);
   const thumbnailsRef2 = useRef<HTMLDivElement>(null);
   const thumbnailsRef3 = useRef<HTMLDivElement>(null);
+  const thumbnailsRef4 = useRef<HTMLDivElement>(null);
 
   // Refs para as imagens principais (para touch)
   const imageRef1 = useRef<HTMLDivElement>(null);
   const imageRef2 = useRef<HTMLDivElement>(null);
   const imageRef3 = useRef<HTMLDivElement>(null);
+  const imageRef4 = useRef<HTMLDivElement>(null);
 
   // Estados para touch handling e animação
   const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
@@ -47,14 +49,10 @@ export default function Home() {
   ];
 
   const projeto2Imagens = [
-    "https://picsum.photos/seed/projeto2-1/1920/1080",
-    "https://picsum.photos/seed/projeto2-2/1920/1080",
-    "https://picsum.photos/seed/projeto2-3/1920/1080",
-    "https://picsum.photos/seed/projeto2-4/1920/1080",
-    "https://picsum.photos/seed/projeto2-5/1920/1080",
-    "https://picsum.photos/seed/projeto2-6/1920/1080",
-    "https://picsum.photos/seed/projeto2-7/1920/1080",
-    "https://picsum.photos/seed/projeto2-8/1920/1080"
+    "/projectimages/VApt1.png",
+    "/projectimages/VApt2.png",
+    "/projectimages/VApt3.png",
+    "/projectimages/VApt4.png"
   ];
 
   const projeto3Imagens = [
@@ -68,10 +66,22 @@ export default function Home() {
     "https://picsum.photos/seed/projeto3-8/1920/1080"
   ];
 
+  const projeto4Imagens = [
+    "/projectimages/Memneo1.png",
+    "/projectimages/Memneo2.png",
+    "/projectimages/Memneo3.png",
+    "/projectimages/Memneo4.jpeg",
+    "/projectimages/Memneo5.png",
+    "/projectimages/Memneo6.png",
+    "/projectimages/Memneo7.png",
+    "/projectimages/Memneo8.png"
+  ];
+
   // Estados para imagens selecionadas
   const [selectedImg1Index, setSelectedImg1Index] = useState(0);
   const [selectedImg2Index, setSelectedImg2Index] = useState(0);
   const [selectedImg3Index, setSelectedImg3Index] = useState(0);
+  const [selectedImg4Index, setSelectedImg4Index] = useState(0);
 
   // Funções de navegação das galerias
   const navigateGallery = (galleryIndex: number, direction: 'next' | 'prev') => {
@@ -90,6 +100,11 @@ export default function Home() {
         ? (selectedImg3Index + 1) % projeto3Imagens.length
         : (selectedImg3Index - 1 + projeto3Imagens.length) % projeto3Imagens.length;
       setSelectedImg3Index(nextIndex);
+    } else if (galleryIndex === 4) {
+      const nextIndex = direction === 'next' 
+        ? (selectedImg4Index + 1) % projeto4Imagens.length
+        : (selectedImg4Index - 1 + projeto4Imagens.length) % projeto4Imagens.length;
+      setSelectedImg4Index(nextIndex);
     }
   };
 
@@ -165,6 +180,7 @@ export default function Home() {
     if (galleryIndex === 1) thumbnailsRef = thumbnailsRef1;
     else if (galleryIndex === 2) thumbnailsRef = thumbnailsRef2;
     else if (galleryIndex === 3) thumbnailsRef = thumbnailsRef3;
+    else if (galleryIndex === 4) thumbnailsRef = thumbnailsRef4;
     else return; // Early return if invalid galleryIndex
     
     if (thumbnailsRef?.current) {
@@ -186,6 +202,8 @@ export default function Home() {
       setSelectedImg2Index(index);
     } else if (galleryIndex === 3) {
       setSelectedImg3Index(index);
+    } else if (galleryIndex === 4) {
+      setSelectedImg4Index(index);
     }
   };
 
@@ -551,7 +569,7 @@ export default function Home() {
                   </div>
                   <Button 
                     as={Link}
-                    href="#" 
+                    href="https://github.com/JoaoPedroZampoli/ProjetoCEGI" 
                     className={buttonStyles({
                       color: "primary",
                       radius: "md",
@@ -793,8 +811,129 @@ export default function Home() {
                   </div>
                   <Button 
                     as={Link}
-                    href="#" 
+                    href="https://github.com/JoaoPedroZampoli/ProjetoDG-Unifesp" 
                     target="_blank"
+                    className={buttonStyles({
+                      color: "primary",
+                      radius: "md",
+                      variant: "solid",
+                      size: "lg",
+                      fullWidth: true
+                    })}
+                  >
+                    Ver Projeto
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-green-500/10 to-blue-600/10 border border-white/10 backdrop-blur-sm"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, delay: 0.3 }}>
+            <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10"></div>
+            <div className="flex flex-col md:flex-row p-6 gap-8">
+              <div className="flex-1 space-y-3">
+                <div className="aspect-video rounded-lg overflow-hidden relative group"
+                  onTouchStart={(e) => handleTouchStart(e, 4)}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={() => handleTouchEnd(4)}>
+                  <motion.div
+                    animate={{
+                      x: isDragging && currentDragGallery === 4 ? dragOffset : 0,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: isDragging ? 0 : 400,
+                      damping: isDragging ? 0 : 30,
+                    }}
+                  >
+                    <Image
+                      src={projeto4Imagens[selectedImg4Index]}
+                      alt="Screenshot do Projeto 4"
+                      className="w-full h-full object-cover transition-transform duration-500"
+                      width={800}
+                    />
+                  </motion.div>
+                  
+                  {/* Botões de navegação */}
+                  <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                    <button 
+                      onClick={() => navigateGallery(4, 'prev')}
+                      className="bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
+                      aria-label="Imagem anterior"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                    
+                    <button 
+                      onClick={() => navigateGallery(4, 'next')}
+                      className="bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors"
+                      aria-label="Próxima imagem"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                  
+                  {/* Indicador de paginação */}
+                  <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 z-10">
+                    {projeto4Imagens.map((_, index) => (
+                      <button 
+                        key={index} 
+                        onClick={() => handleThumbnailClick(4, index)}
+                        className={`w-2 h-2 rounded-full transition-colors ${selectedImg4Index === index ? 'bg-white' : 'bg-white/40'}`}
+                        aria-label={`Ir para imagem ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+                
+                <div 
+                  ref={thumbnailsRef4}
+                  className="flex overflow-x-auto space-x-2 py-1 hide-scrollbar scroll-smooth"
+                >
+                  {projeto4Imagens.map((imgSrc, index) => (
+                    <button 
+                      key={index}
+                      className={`flex-shrink-0 h-14 rounded-medium overflow-hidden border-2 transition-all duration-300 ${selectedImg4Index === index ? 'border-primary scale-105 shadow-lg' : 'border-transparent opacity-70 hover:opacity-90 hover:scale-102'}`}
+                      onClick={() => handleThumbnailClick(4, index)}
+                    >
+                      <Image 
+                        src={imgSrc}
+                        alt={`Miniatura ${index + 1}`}
+                        className="w-full h-full object-cover rounded-md"
+                        height={56}
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className={title({ size: "sm", class: "mb-2" })}>Memneo</h3>
+                  <p className={subtitle({ class: "mb-4 text-sm" })}>Plataforma de estudos por Flashcards</p>
+                  <p className="text-default-600 mb-6 text-sm">
+                  Este site, que foi idealizado inicialmente para um trabalho de a matéria eletiva de Aspectos e Implentação de Banco de Dados, visa auxiliar estudantes a estudarem por meio de flashcards, permitindo que os usuários criem, editem e compartilhem seus próprios cards.
+                  <br/>A plataforma também conta com um sistema de login e autenticação, permitindo que os usuários salvem seus cards e acessem de qualquer lugar.
+                  </p>
+                </div>
+                
+                <div>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="px-4 py-2 text-xs font-medium rounded-full bg-blue-600/20 text-blue-500">React</span>
+                    <span className="px-4 py-2 text-xs font-medium rounded-full bg-blue-600/20 text-blue-500">TypeScript</span>
+                    <span className="px-4 py-2 text-xs font-medium rounded-full bg-yellow-600/20 text-yellow-500">Web Development</span>
+                  </div>
+                  <Button 
+                    as={Link}
+                    href="https://memneo.vercel.app" 
                     className={buttonStyles({
                       color: "primary",
                       radius: "md",
