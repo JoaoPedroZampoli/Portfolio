@@ -45,12 +45,23 @@ export function ProjectsExplorer({ locale, dict }: ProjectsExplorerProps) {
     })),
   ];
 
+  const resultsLabel = `${visible.length} ${
+    visible.length === 1
+      ? dict.projects.resultsSingular
+      : dict.projects.resultsPlural
+  }`;
+
   return (
     <div>
-      <div className="flex flex-wrap justify-center gap-2 mb-12">
+      <div
+        aria-label={dict.projects.filterLabel}
+        className="flex flex-wrap justify-center gap-2 mb-12"
+        role="group"
+      >
         {filters.map((item) => (
           <Button
             key={item.id}
+            aria-pressed={filter === item.id}
             color={filter === item.id ? "primary" : "default"}
             radius="full"
             size="sm"
@@ -61,6 +72,15 @@ export function ProjectsExplorer({ locale, dict }: ProjectsExplorerProps) {
           </Button>
         ))}
       </div>
+
+      {/*
+        A cor do botão ativo e a lista trocando são pistas visuais. Sem esta
+        região, quem usa leitor de tela aperta um filtro e não recebe retorno
+        nenhum de quantos projetos sobraram.
+      */}
+      <span aria-live="polite" className="sr-only" role="status">
+        {resultsLabel}
+      </span>
 
       {visible.length === 0 ? (
         <p className="text-center text-default-500 py-16">

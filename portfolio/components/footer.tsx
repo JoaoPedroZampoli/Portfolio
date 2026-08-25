@@ -116,7 +116,7 @@ export function Footer({ locale, dict }: FooterProps) {
           <p className="text-xs text-default-500">
             © {currentYear} {siteConfig.author}. {dict.footer.rights}
           </p>
-          <p className="text-xs text-default-400">{dict.footer.builtWith}</p>
+          <p className="text-xs text-default-500">{dict.footer.builtWith}</p>
         </div>
       </div>
     </footer>

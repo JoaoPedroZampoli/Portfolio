@@ -5,6 +5,7 @@ import NextImage from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon, ExpandIcon } from "@/components/icons";
+import { scrollBehavior } from "@/lib/motion";
 
 const SWIPE_THRESHOLD = 50;
 const MAX_DRAG_OFFSET = 100;
@@ -14,6 +15,10 @@ interface GalleryLabels {
   next: string;
   goTo: string;
   imageOf: string;
+  /** Liga posição e total: "Imagem 2 <de> 5". */
+  imageSeparator: string;
+  /** Descreve o papel do conjunto para o leitor de tela. */
+  carousel: string;
   expand: string;
   close: string;
 }
@@ -48,6 +53,7 @@ export function ProjectGallery({
   const touchEnd = useRef<{ x: number; y: number } | null>(null);
 
   const total = images.length;
+  const position = `${labels.imageOf} ${index + 1} ${labels.imageSeparator} ${total}`;
 
   const navigate = useCallback(
     (direction: "next" | "prev") => {
@@ -98,7 +104,7 @@ export function ProjectGallery({
     if (thumbnail) {
       container.scrollTo({
         left: thumbnail.offsetLeft - container.offsetWidth / 2 + thumbnail.offsetWidth / 2,
-        behavior: "smooth",
+        behavior: scrollBehavior(),
       });
     }
   }, [index]);
@@ -152,7 +158,12 @@ export function ProjectGallery({
   }
 
   return (
-    <div className="space-y-3">
+    <div
+      aria-label={name}
+      aria-roledescription={labels.carousel}
+      className="space-y-3"
+      role="group"
+    >
       <div
         className="aspect-video rounded-xl overflow-hidden relative group bg-default-100"
         onTouchEnd={handleTouchEnd}
@@ -175,7 +186,7 @@ export function ProjectGallery({
             >
               <NextImage
                 fill
-                alt={`${name} — ${labels.imageOf} ${index + 1}`}
+                alt={`${name} — ${position}`}
                 className="object-cover"
                 // Duas colunas a partir de md; abaixo disso ocupa a largura toda.
                 sizes="(min-width: 768px) 540px, 100vw"
@@ -248,10 +259,11 @@ export function ProjectGallery({
           {images.map((image, thumb) => (
             <button
               key={image}
+              aria-current={thumb === index}
               aria-label={`${labels.goTo} ${thumb + 1}`}
               className={`relative flex-shrink-0 h-14 w-24 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
                 thumb === index
-                  ? "border-primary shadow-lg"
+                  ? "border-primary shadow-lg thumbnail-active"
                   : "border-transparent opacity-60 hover:opacity-100"
               }`}
               type="button"
@@ -269,9 +281,20 @@ export function ProjectGallery({
         </div>
       ) : null}
 
+      {/*
+        Setas, pontinhos e swipe trocam a imagem sem mudar nada que um leitor
+        de tela acompanhe: o <img> que muda está fora do foco de quem apertou
+        o botão. Esta região é o único retorno auditivo da navegação.
+      */}
+      {total > 1 ? (
+        <span aria-live="polite" className="sr-only" role="status">
+          {position}
+        </span>
+      ) : null}
+
       <dialog
         ref={dialogRef}
-        aria-label={`${name} — ${labels.imageOf} ${index + 1}`}
+        aria-label={`${name} — ${position}`}
         className="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-black/90 backdrop:backdrop-blur-sm"
         onClose={() => setIsExpanded(false)}
         onKeyDown={(event) => {
@@ -308,7 +331,7 @@ export function ProjectGallery({
             */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              alt={`${name} — ${labels.imageOf} ${index + 1}`}
+              alt={`${name} — ${position}`}
               className="max-h-full max-w-full rounded-lg object-contain shadow-2xl"
               src={images[index]}
             />

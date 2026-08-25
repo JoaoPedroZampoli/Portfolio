@@ -149,7 +149,18 @@ export default async function LocaleLayout({
               {dict.common.skipToContent}
             </a>
             <Navbar dict={dict} locale={typedLocale} />
-            <main className="flex-grow" id="main-content">
+            {/*
+              `<main>` não é focável por padrão: em alguns navegadores o link
+              acima rolaria a página sem mover o foco, e o próximo Tab voltaria
+              para a navbar. O `tabIndex={-1}` o torna alvo programático sem
+              entrar na ordem de tabulação; o contorno fica suprimido porque
+              envolveria a página inteira.
+            */}
+            <main
+              className="flex-grow focus:outline-none"
+              id="main-content"
+              tabIndex={-1}
+            >
               {children}
             </main>
             <Footer dict={dict} locale={typedLocale} />

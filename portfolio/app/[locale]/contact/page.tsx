@@ -106,11 +106,18 @@ export default async function ContactPage({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
         {channels.map((channel, index) => (
           <Reveal key={channel.id} delay={index * 0.06}>
+            {/*
+              O cartão inteiro é um link. Com `aria-label` o nome acessível era
+              uma string à parte e o texto do cartão não era anunciado ao tabular.
+              `aria-labelledby` tira o nome do próprio título visível (WCAG 2.5.3)
+              e `aria-describedby` traz a descrição junto.
+            */}
             <Link
               isExternal
+              aria-describedby={`${channel.id}-text`}
+              aria-labelledby={`${channel.id}-title`}
               className="block h-full"
               href={channel.href}
-              aria-label={channel.title}
             >
               <Card
                 isHoverable
@@ -121,10 +128,16 @@ export default async function ContactPage({
                   <div className="p-2.5 rounded-xl bg-background/70 text-foreground">
                     <channel.Icon size={24} />
                   </div>
-                  <h3 className="font-semibold text-foreground">
+                  <h3
+                    className="font-semibold text-foreground"
+                    id={`${channel.id}-title`}
+                  >
                     {channel.title}
                   </h3>
-                  <p className="text-sm text-default-600 leading-relaxed flex-grow">
+                  <p
+                    className="text-sm text-default-600 leading-relaxed flex-grow"
+                    id={`${channel.id}-text`}
+                  >
                     {channel.text}
                   </p>
                   <span className="text-sm font-medium text-primary flex items-center gap-1.5">

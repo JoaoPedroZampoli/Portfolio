@@ -40,7 +40,17 @@ function GeneratedCover({ project }: { project: Project }) {
       className={`aspect-video rounded-xl overflow-hidden relative flex items-center justify-center bg-gradient-to-br ${project.accent.from} ${project.accent.to} border border-default-200`}
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(255,255,255,0.14),transparent_55%)]" />
-      <span className="relative text-6xl md:text-7xl font-bold text-foreground/25 tracking-tighter select-none">
+      {/*
+        A /25 as iniciais ficavam em 1.7:1 sobre a capa — abaixo dos 3:1 que a
+        WCAG 1.4.3 pede até para texto grande. A /60 passa nos dois temas sobre
+        todos os gradientes de destaque e continua lendo como marca d'água.
+        `aria-hidden` porque são o nome do projeto abreviado, que o <h3> ao lado
+        já anuncia por extenso.
+      */}
+      <span
+        aria-hidden="true"
+        className="relative text-6xl md:text-7xl font-bold text-foreground/60 tracking-tighter select-none"
+      >
         {initials}
       </span>
       <div className="absolute bottom-4 left-4 right-4 flex flex-wrap gap-1.5">
@@ -86,6 +96,8 @@ export function ProjectCard({
                 next: dict.projects.next,
                 goTo: dict.projects.goTo,
                 imageOf: dict.projects.imageOf,
+                imageSeparator: dict.projects.imageSeparator,
+                carousel: dict.projects.carousel,
                 expand: dict.projects.expand,
                 close: dict.projects.close,
               }}
@@ -126,9 +138,18 @@ export function ProjectCard({
               </div>
 
               <div className="flex flex-wrap gap-3">
+                {/*
+                  Numa lista de projetos estes dois rótulos se repetem em cada
+                  card, cada um apontando para um destino diferente. Quem pede à
+                  tecnologia assistiva a lista de links da página receberia
+                  "Acessar" nove vezes, sem o card em volta para desempatar. O
+                  nome do projeto entra no nome acessível; o texto visível
+                  continua sendo o começo dele, como a WCAG 2.5.3 pede.
+                */}
                 {links.live ? (
                   <Button
                     isExternal
+                    aria-label={`${dict.projects.viewLive} — ${project.name}`}
                     as={Link}
                     color="primary"
                     href={links.live}
@@ -141,6 +162,7 @@ export function ProjectCard({
                 {links.repo ? (
                   <Button
                     isExternal
+                    aria-label={`${dict.projects.viewCode} — ${project.name}`}
                     as={Link}
                     href={links.repo}
                     startContent={<CodeIcon size={16} />}

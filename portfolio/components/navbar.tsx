@@ -67,6 +67,7 @@ export function Navbar({ locale, dict }: NavbarProps) {
           {items.map((item) => (
             <NavbarItem key={item.href} isActive={isActive(item.href)}>
               <NextLink
+                aria-current={isActive(item.href) ? "page" : undefined}
                 className={clsx(
                   linkStyles({ color: "foreground" }),
                   "px-3 py-2 text-sm rounded-lg transition-colors hover:text-primary",
@@ -93,28 +94,38 @@ export function Navbar({ locale, dict }: NavbarProps) {
             <LocaleSwitch label={dict.nav.changeLanguage} locale={locale} />
             <ThemeSwitch label={dict.nav.toggleTheme} />
           </NavbarItem>
-          <NavbarMenuToggle aria-label={dict.nav.menu} className="lg:hidden" />
+          {/*
+            `NavbarContent` renderiza um <ul>, e `NavbarMenuToggle` renderiza um
+            <button>. Solto, ele seria um filho direto de lista que não é <li> —
+            o `NavbarItem` em volta é quem fornece o <li>.
+          */}
+          <NavbarItem className="lg:hidden">
+            <NavbarMenuToggle aria-label={dict.nav.menu} />
+          </NavbarItem>
         </NavbarContent>
 
-        <NavbarMenu className="w-full">
-          <div className="mx-2 mt-4 flex flex-col gap-1">
-            {items.map((item) => (
-              <NavbarMenuItem key={item.href} isActive={isActive(item.href)}>
-                <NextLink
-                  className={clsx(
-                    "block w-full py-2.5 text-lg transition-colors",
-                    isActive(item.href)
-                      ? "text-primary font-medium"
-                      : "text-foreground",
-                  )}
-                  href={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.label}
-                </NextLink>
-              </NavbarMenuItem>
-            ))}
-          </div>
+        {/*
+          O espaçamento vem no próprio <ul> que o `NavbarMenu` renderiza. Um
+          <div> em volta dos itens seria filho direto de lista sem ser <li>.
+        */}
+        <NavbarMenu className="w-full gap-1 px-4 pt-4">
+          {items.map((item) => (
+            <NavbarMenuItem key={item.href} isActive={isActive(item.href)}>
+              <NextLink
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={clsx(
+                  "block w-full py-2.5 text-lg transition-colors",
+                  isActive(item.href)
+                    ? "text-primary font-medium"
+                    : "text-foreground",
+                )}
+                href={item.href}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.label}
+              </NextLink>
+            </NavbarMenuItem>
+          ))}
         </NavbarMenu>
       </HeroUINavbar>
     </motion.div>

@@ -39,6 +39,37 @@
   }
 }
 
+/*
+ * Modo de cores forçadas (o Alto Contraste do Windows). O sistema substitui
+ * cores de texto, fundo e borda pela paleta dele — mas não mexe em
+ * `background-image` nem em `-webkit-text-fill-color`. Fica fora de `@layer`
+ * de propósito: são classes escritas à mão, e o Tailwind não as veria para
+ * gerar utilitário nenhum.
+ */
+@media (forced-colors: active) {
+  /*
+   * `bg-clip-text` + `text-transparent` pinta a letra com o gradiente. Sem o
+   * gradiente forçado a cor sistema, o texto — o nome no herói, o 404 —
+   * simplesmente não aparecia.
+   */
+  .bg-clip-text {
+    background-image: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    -webkit-text-fill-color: CanvasText;
+    color: CanvasText;
+  }
+
+  /*
+   * A miniatura ativa da galeria se distingue só pela cor da borda, e todas as
+   * bordas viram a mesma cor de sistema aqui. `Highlight` é a cor de seleção.
+   */
+  .thumbnail-active {
+    outline: 3px solid Highlight;
+    outline-offset: -3px;
+  }
+}
+
 @layer utilities {
   /* Usada nas tiras de miniaturas da galeria de projetos. */
   .hide-scrollbar {

@@ -50,7 +50,7 @@ export function Hero({ locale, dict }: HeroProps) {
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight">
               <span className="text-foreground">{dict.home.greeting}</span>
               <br />
-              <span className="bg-gradient-to-r from-blue-500 via-teal-500 to-blue-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-500 via-teal-600 to-blue-600 bg-clip-text text-transparent">
                 {siteConfig.shortName}
               </span>
             </h1>
