@@ -94,8 +94,8 @@ export const projects: Project[] = [
       en: "2D RPG built in Unity",
     },
     description: {
-      pt: "Protótipo de jogo criado para a eletiva de Desenvolvimento de Games do ICT-Unifesp. Você joga como Kerana, uma jovem onça que embarca numa jornada de vingança contra o vilão que destruiu sua vila. Cuidei de sistemas de combate, movimentação e progressão.",
-      en: "A game prototype built for the Game Development elective at ICT-Unifesp. You play as Kerana, a young jaguar on a journey of revenge against the villain who destroyed her village. I worked on the combat, movement and progression systems.",
+      pt: "Protótipo de jogo criado para a eletiva de Desenvolvimento de Games do ICT-Unifesp. Você joga como Kerana, uma jovem onça que embarca numa jornada de vingança contra o vilão que destruiu sua vila. Participei da concepção (Game Design) do jogo, além de realizar parte da User Interface (UI) e implementação de diálogos.",
+      en: "A game prototype built for the Game Development elective at ICT-Unifesp. You play as Kerana, a young jaguar on a journey of revenge against the villain who destroyed her village. I took part in the game's conception (Game Design), and also built part of the User Interface (UI) and the dialogue implementation.",
     },
     category: "games",
     period: "2024",
