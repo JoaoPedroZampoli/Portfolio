@@ -1,29 +1,31 @@
 "use client";
 
-import { FC } from "react";
-import { VisuallyHidden } from "@react-aria/visually-hidden";
-import { SwitchProps, useSwitch } from "@heroui/switch";
-import { useTheme } from "next-themes";
-import { useIsSSR } from "@react-aria/ssr";
-import clsx from "clsx";
+import type { SwitchProps } from "@heroui/switch";
+import type { FC } from "react";
 
-import { SunFilledIcon, MoonFilledIcon } from "@/components/icons";
+import { useSwitch } from "@heroui/switch";
+import { useIsSSR } from "@react-aria/ssr";
+import { VisuallyHidden } from "@react-aria/visually-hidden";
+import clsx from "clsx";
+import { useTheme } from "next-themes";
+
+import { MoonFilledIcon, SunFilledIcon } from "@/components/icons";
 
 export interface ThemeSwitchProps {
   className?: string;
   classNames?: SwitchProps["classNames"];
+  label?: string;
 }
 
 export const ThemeSwitch: FC<ThemeSwitchProps> = ({
   className,
   classNames,
+  label = "Toggle theme",
 }) => {
   const { theme, setTheme } = useTheme();
   const isSSR = useIsSSR();
 
-  const onChange = () => {
-    theme === "light" ? setTheme("dark") : setTheme("light");
-  };
+  const isLight = theme === "light" || isSSR;
 
   const {
     Component,
@@ -33,9 +35,9 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
     getInputProps,
     getWrapperProps,
   } = useSwitch({
-    isSelected: theme === "light" || isSSR,
-    "aria-label": `Switch to ${theme === "light" || isSSR ? "dark" : "light"} mode`,
-    onChange,
+    "aria-label": label,
+    isSelected: isLight,
+    onChange: () => setTheme(isLight ? "dark" : "light"),
   });
 
   return (
@@ -62,9 +64,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
               "flex items-center justify-center",
               "group-data-[selected=true]:bg-transparent",
               "!text-default-500",
-              "pt-px",
-              "px-0",
-              "mx-0",
+              "pt-px px-0 mx-0",
             ],
             classNames?.wrapper,
           ),
@@ -79,3 +79,5 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
     </Component>
   );
 };
+
+export default ThemeSwitch;

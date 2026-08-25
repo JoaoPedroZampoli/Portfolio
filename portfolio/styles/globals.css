@@ -2,24 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    scroll-behavior: smooth;
+
+    /*
+     * Reserva a calha da barra de rolagem o tempo todo. Overlays do HeroUI
+     * (dropdown de idioma, tema, menu do navbar) travam o scroll com
+     * `overflow: hidden` no html enquanto abertos; sem a calha fixa a barra
+     * sumiria e o conteúdo daria um pulo lateral a cada abertura.
+     */
+    scrollbar-gutter: stable;
+  }
+
+  /* Respeita quem pediu menos movimento no sistema. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  ::selection {
+    @apply bg-primary/25;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+}
+
+@layer utilities {
+  /* Usada nas tiras de miniaturas da galeria de projetos. */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 ::-webkit-scrollbar {
-    color: rgb(0, 111, 238);
-    height: 8px;
-    width: 10px;
+  height: 8px;
+  width: 10px;
 }
 
-  /* Handle */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 ::-webkit-scrollbar-thumb {
-    background: rgb(0, 111, 238);
-    border-radius: 16px;
+  background: hsl(var(--heroui-primary) / 0.6);
+  border-radius: 16px;
 }
 
-html, body, nav, main, section, div:not([data-nextui-theme]) {
-  transition-property: background-color, color, border-color;
-  transition-timing-function: ease-in-out;
-  transition-duration: 300ms;
-}
-
-[data-nextui-theme] * {
-  transition: none !important;
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--heroui-primary));
 }

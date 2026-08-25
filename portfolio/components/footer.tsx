@@ -1,163 +1,126 @@
-import React from "react";
-import { Link } from "@heroui/link";
+import type { Dictionary } from "@/i18n/dictionaries";
+import type { Locale } from "@/i18n/config";
+
 import { Divider } from "@heroui/divider";
+import { Link } from "@heroui/link";
 import NextLink from "next/link";
 
-import { siteConfig } from "@/config/site";
 import {
   GithubIcon,
-  LinkedInIcon,
-  HeartFilledIcon,
   LattesIcon,
+  LinkedInIcon,
+  MailIcon,
   TerminalIcon,
 } from "@/components/icons";
+import { siteConfig } from "@/config/site";
+import { localePath } from "@/lib/navigation";
 
-export const Footer = () => {
+interface FooterProps {
+  locale: Locale;
+  dict: Dictionary;
+}
+
+export function Footer({ locale, dict }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
+  const socials = [
+    { href: siteConfig.links.linkedin, label: "LinkedIn", Icon: LinkedInIcon },
+    { href: siteConfig.links.github, label: "GitHub", Icon: GithubIcon },
+    { href: siteConfig.links.lattes, label: "Lattes", Icon: LattesIcon },
+    { href: `mailto:${siteConfig.email}`, label: "E-mail", Icon: MailIcon },
+  ];
+
   return (
-    <footer className="w-full border-t border-default-200 py-8 mt-auto">
+    <footer className="w-full border-t border-default-200 py-10 mt-auto">
       <div className="container mx-auto px-6 max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          {/* Logo e descrição */}
-          <div className="col-span-1 md:col-span-1">
-            <NextLink href="/" className="flex items-center gap-2 mb-4">
-              <TerminalIcon size={30} />
-              <p className="font-bold text-inherit">João Pedro Zampoli</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          <div>
+            <NextLink
+              className="flex items-center gap-2 mb-3"
+              href={localePath(locale)}
+            >
+              <TerminalIcon className="text-primary" size={26} />
+              <span className="font-bold text-foreground">
+                {siteConfig.shortName}
+              </span>
             </NextLink>
-            <p className="text-sm text-default-500 mb-4">
-              {siteConfig.description}
+            <p className="text-sm text-default-500 max-w-xs leading-relaxed">
+              {dict.meta.description}
             </p>
-            <div className="flex gap-4">
-              <Link
-                isExternal
-                href={siteConfig.links.linkedin}
-                aria-label="LinkedIn"
-              >
-                <LinkedInIcon className="text-default-500 hover:text-primary transition-colors" />
-              </Link>
-              <Link
-                isExternal
-                href={siteConfig.links.github}
-                aria-label="GitHub"
-              >
-                <GithubIcon className="text-default-500 hover:text-black dark:hover:text-white transition-colors" />
-              </Link>
-              <Link
-                isExternal
-                href={siteConfig.links.lattes}
-                aria-label="Lattes"
-              >
-                <LattesIcon className="text-default-500 hover:text-black dark:hover:text-white transition-colors" />
-              </Link>
-            </div>
           </div>
 
-          {/* Links rápidos */}
-          <div className="col-span-1">
-            <h3 className="font-semibold text-foreground mb-4">
-              Links Rápidos
+          <div>
+            <h3 className="font-semibold text-foreground mb-3 text-sm">
+              {dict.footer.sections}
             </h3>
             <ul className="space-y-2">
               {siteConfig.navItems.map((item) => (
-                <li key={item.href}>
+                <li key={item.key}>
                   <NextLink
-                    href={item.href}
                     className="text-default-500 hover:text-primary text-sm transition-colors"
+                    href={localePath(locale, item.href)}
                   >
-                    {item.label}
+                    {dict.nav[item.key]}
                   </NextLink>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Recursos */}
-          <div className="col-span-1">
-            <h3 className="font-semibold text-foreground mb-4">Recursos</h3>
+          <div>
+            <h3 className="font-semibold text-foreground mb-3 text-sm">
+              {dict.footer.elsewhere}
+            </h3>
+            <div className="flex gap-3 mb-4">
+              {socials.map(({ href, label, Icon }) => (
+                <Link
+                  key={label}
+                  isExternal
+                  aria-label={label}
+                  className="text-default-500 hover:text-primary transition-colors"
+                  href={href}
+                >
+                  <Icon size={22} />
+                </Link>
+              ))}
+            </div>
             <ul className="space-y-2">
               <li>
                 <Link
+                  isExternal
+                  className="text-default-500 hover:text-primary text-sm"
                   href={siteConfig.links.repo}
+                >
+                  {dict.footer.sourceCode}
+                </Link>
+              </li>
+              <li>
+                <Link
                   isExternal
                   className="text-default-500 hover:text-primary text-sm"
+                  href={siteConfig.resume[locale]}
                 >
-                  Repositório do Portfólio
+                  {dict.footer.resume}
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-default-500 hover:text-primary text-sm"
-                >
-                  Tutoriais
-                </Link>
+              <li className="text-default-500 text-sm">
+                {siteConfig.location[locale]}
               </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-default-500 hover:text-primary text-sm"
-                >
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={siteConfig.links.sponsor}
-                  isExternal
-                  className="flex items-center gap-1 text-default-500 hover:text-primary text-sm"
-                >
-                  <span>Patrocinar</span>
-                  <HeartFilledIcon size={14} className="text-danger" />
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contato */}
-          <div className="col-span-1">
-            <h3 className="font-semibold text-foreground mb-4">Contato</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="mailto:contato@exemplo.com"
-                  className="text-default-500 hover:text-primary text-sm"
-                >
-                  joaopedro.zampoli@gmail.com
-                </Link>
-              </li>
-              {/* <li className="text-default-500 text-sm">
-                
-              </li> */}
-              <li className="text-default-500 text-sm">Jacareí, SP - Brasil</li>
             </ul>
           </div>
         </div>
 
         <Divider className="my-6" />
 
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-default-500">
-            &copy; {currentYear} - Feito por João Pedro Zampoli
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-xs text-default-500">
+            © {currentYear} {siteConfig.author}. {dict.footer.rights}
           </p>
-          <div className="flex gap-6 mt-4 md:mt-0">
-            <Link
-              href="#"
-              className="text-default-500 hover:text-primary text-sm"
-            >
-              Termos de Serviço
-            </Link>
-            <Link
-              href="#"
-              className="text-default-500 hover:text-primary text-sm"
-            >
-              Política de Privacidade
-            </Link>
-          </div>
+          <p className="text-xs text-default-400">{dict.footer.builtWith}</p>
         </div>
       </div>
     </footer>
   );
-};
+}
 
 export default Footer;
