@@ -1,6 +1,7 @@
 import type { Locale } from "@/i18n/config";
 import type { Metadata, Viewport } from "next";
 
+import { Analytics } from "@vercel/analytics/next";
 import clsx from "clsx";
 import { notFound } from "next/navigation";
 
@@ -154,6 +155,7 @@ export default async function LocaleLayout({
             <ScrollToTop label={dict.common.backToTop} />
           </div>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
