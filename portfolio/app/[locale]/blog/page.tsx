@@ -49,11 +49,18 @@ export default async function BlogPage({
       />
 
       {posts.length === 0 ? (
-        <p className="text-center text-default-500 py-16">{dict.blog.empty}</p>
+        <Reveal immediate delay={0.2}>
+          <p className="text-center text-default-500 py-16">{dict.blog.empty}</p>
+        </Reveal>
       ) : (
         <div className="space-y-5">
           {posts.map((post, index) => (
-            <Reveal key={post.slug} delay={index * 0.06}>
+            // Os primeiros entram junto com o cabeçalho; os de baixo, ao rolar.
+            <Reveal
+              key={post.slug}
+              delay={index < 3 ? 0.2 + index * 0.06 : index * 0.06}
+              immediate={index < 3}
+            >
               <NextLink
                 className="block"
                 href={localePath(typedLocale, `/blog/${post.slug}`)}

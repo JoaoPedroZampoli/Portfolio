@@ -82,7 +82,7 @@ export default async function ContactPage({
         title={dict.contact.title}
       />
 
-      <Reveal>
+      <Reveal immediate delay={0.2}>
         <Card className="mb-10 border border-default-200" shadow="none">
           <CardBody className="p-6 md:p-8 flex flex-col items-center gap-4 text-center">
             <div>
@@ -105,7 +105,7 @@ export default async function ContactPage({
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
         {channels.map((channel, index) => (
-          <Reveal key={channel.id} delay={index * 0.06}>
+          <Reveal key={channel.id} immediate delay={0.3 + index * 0.06}>
             {/*
               O cartão inteiro é um link. Com `aria-label` o nome acessível era
               uma string à parte e o texto do cartão não era anunciado ao tabular.

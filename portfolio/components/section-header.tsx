@@ -10,6 +10,12 @@ interface SectionHeaderProps {
    * documento precisa de exatamente um.
    */
   as?: "h1" | "h2";
+  /**
+   * Anima na montagem em vez de esperar entrar na tela. O padrão é ligado
+   * quando o cabeçalho é o `h1`: ele está sempre no topo, e o `Reveal` comum
+   * não anima o que já está visível ao carregar — a página abria parada.
+   */
+  immediate?: boolean;
 }
 
 export function SectionHeader({
@@ -17,18 +23,19 @@ export function SectionHeader({
   subtitle,
   align = "center",
   as: Heading = "h2",
+  immediate = Heading === "h1",
 }: SectionHeaderProps) {
   const alignment = align === "center" ? "text-center mx-auto" : "text-left";
 
   return (
     <div className={`max-w-2xl mb-12 md:mb-16 ${alignment}`}>
-      <Reveal>
+      <Reveal immediate={immediate}>
         <Heading className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight">
           {title}
         </Heading>
       </Reveal>
       {subtitle ? (
-        <Reveal delay={0.1}>
+        <Reveal delay={0.1} immediate={immediate}>
           <p className="mt-4 text-base md:text-lg text-default-500 leading-relaxed">
             {subtitle}
           </p>

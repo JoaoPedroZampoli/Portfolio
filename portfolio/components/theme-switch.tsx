@@ -8,6 +8,7 @@ import { useIsSSR } from "@react-aria/ssr";
 import { VisuallyHidden } from "@react-aria/visually-hidden";
 import clsx from "clsx";
 import { useTheme } from "next-themes";
+import { flushSync } from "react-dom";
 
 import { MoonFilledIcon, SunFilledIcon } from "@/components/icons";
 
@@ -30,6 +31,37 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
   // nunca tocou nele.
   const isLight = resolvedTheme === "light" || isSSR;
 
+  /**
+   * Troca o tema com um crossfade da página inteira, pela View Transitions
+   * API: o navegador fotografa a página antes, aplica o tema novo e funde uma
+   * foto na outra (duração e curva no globals.css).
+   *
+   * O `flushSync` é o que faz isso funcionar. O next-themes só aplica a classe
+   * no <html> num `useEffect`; renderizando de forma síncrona, o React roda
+   * esse efeito antes do callback retornar, e a foto "depois" já sai com o
+   * tema novo.
+   *
+   * Sem suporte à API ou com movimento reduzido, a troca é instantânea — o
+   * bloco `prefers-reduced-motion` do CSS não alcança os pseudo-elementos da
+   * transição, então a checagem precisa ser feita aqui.
+   */
+  const toggleTheme = () => {
+    const next = isLight ? "dark" : "light";
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (!document.startViewTransition || reduceMotion) {
+      setTheme(next);
+
+      return;
+    }
+
+    document.startViewTransition(() => {
+      flushSync(() => setTheme(next));
+    });
+  };
+
   const {
     Component,
     slots,
@@ -40,8 +72,11 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
   } = useSwitch({
     "aria-label": label,
     isSelected: isLight,
-    onChange: () => setTheme(isLight ? "dark" : "light"),
+    onChange: toggleTheme,
   });
+
+  // No servidor não se sabe o tema; o sol é o ícone neutro até hidratar.
+  const showSun = !isSelected || isSSR;
 
   return (
     <Component
@@ -73,11 +108,28 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
           ),
         })}
       >
-        {!isSelected || isSSR ? (
-          <SunFilledIcon size={22} />
-        ) : (
-          <MoonFilledIcon size={22} />
-        )}
+        {/*
+          Os dois ícones ficam empilhados e se revezam: o que sai gira e
+          encolhe, o que entra gira de volta ao lugar. O `theme-toggle` tira o
+          botão do crossfade da página (ver globals.css) — senão a rotação
+          apareceria fundida com a foto antiga do botão.
+        */}
+        <span className="relative block size-[22px] [view-transition-name:theme-toggle]">
+          <SunFilledIcon
+            className={clsx(
+              "absolute inset-0 transition-[transform,opacity] duration-500 ease-out",
+              showSun ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0",
+            )}
+            size={22}
+          />
+          <MoonFilledIcon
+            className={clsx(
+              "absolute inset-0 transition-[transform,opacity] duration-500 ease-out",
+              showSun ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100",
+            )}
+            size={22}
+          />
+        </span>
       </div>
     </Component>
   );

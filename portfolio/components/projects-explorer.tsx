@@ -8,6 +8,7 @@ import { Button } from "@heroui/button";
 import { useMemo, useState } from "react";
 
 import { ProjectCard } from "@/components/project-card";
+import { Reveal } from "@/components/reveal";
 import { projectCategories, projects } from "@/data/projects";
 
 type Filter = ProjectCategory | "all";
@@ -53,25 +54,27 @@ export function ProjectsExplorer({ locale, dict }: ProjectsExplorerProps) {
 
   return (
     <div>
-      <div
-        aria-label={dict.projects.filterLabel}
-        className="flex flex-wrap justify-center gap-2 mb-12"
-        role="group"
-      >
-        {filters.map((item) => (
-          <Button
-            key={item.id}
-            aria-pressed={filter === item.id}
-            color={filter === item.id ? "primary" : "default"}
-            radius="full"
-            size="sm"
-            variant={filter === item.id ? "solid" : "bordered"}
-            onPress={() => setFilter(item.id)}
-          >
-            {item.label}
-          </Button>
-        ))}
-      </div>
+      <Reveal immediate delay={0.2}>
+        <div
+          aria-label={dict.projects.filterLabel}
+          className="flex flex-wrap justify-center gap-2 mb-12"
+          role="group"
+        >
+          {filters.map((item) => (
+            <Button
+              key={item.id}
+              aria-pressed={filter === item.id}
+              color={filter === item.id ? "primary" : "default"}
+              radius="full"
+              size="sm"
+              variant={filter === item.id ? "solid" : "bordered"}
+              onPress={() => setFilter(item.id)}
+            >
+              {item.label}
+            </Button>
+          ))}
+        </div>
+      </Reveal>
 
       {/*
         A cor do botão ativo e a lista trocando são pistas visuais. Sem esta
@@ -95,6 +98,8 @@ export function ProjectsExplorer({ locale, dict }: ProjectsExplorerProps) {
               dict={dict}
               locale={locale}
               project={project}
+              delay={0.3}
+              immediate={index === 0}
               reversed={index % 2 === 1}
             />
           ))}

@@ -23,6 +23,9 @@ interface ProjectCardProps {
    * pularia um nível.
    */
   as?: "h2" | "h3";
+  /** Repassados ao `Reveal` — para o cartão que abre a página já no topo. */
+  immediate?: boolean;
+  delay?: number;
 }
 
 /** Capa gerada para projetos sem capturas de tela — evita placeholders genéricos. */
@@ -73,11 +76,13 @@ export function ProjectCard({
   dict,
   reversed = false,
   as: Heading = "h3",
+  immediate = false,
+  delay = 0,
 }: ProjectCardProps) {
   const { links } = project;
 
   return (
-    <Reveal>
+    <Reveal delay={delay} immediate={immediate}>
       <article
         className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${project.accent.from} ${project.accent.to} border border-default-200 backdrop-blur-sm`}
         id={project.slug}

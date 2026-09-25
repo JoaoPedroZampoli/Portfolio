@@ -222,3 +222,27 @@
     animation: flutua-desce 3s ease-in-out infinite;
   }
 }
+
+/*
+ * Troca de tema (ver `theme-switch.tsx`): o crossfade padrão da View
+ * Transitions API entre a foto antiga e a nova, só mais lento que os 250ms
+ * padrão do navegador.
+ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 400ms;
+  animation-timing-function: ease-in-out;
+}
+
+/*
+ * O botão de tema sai do crossfade: sem a foto antiga e com a nova sem
+ * animação, o que aparece durante a troca é o botão ao vivo, girando os
+ * ícones com as próprias transições.
+ */
+::view-transition-old(theme-toggle) {
+  display: none;
+}
+
+::view-transition-new(theme-toggle) {
+  animation: none;
+}
