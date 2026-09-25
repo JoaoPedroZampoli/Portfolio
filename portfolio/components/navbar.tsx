@@ -110,9 +110,15 @@ export function Navbar({ locale, dict }: NavbarProps) {
             `NavbarContent` renderiza um <ul>, e `NavbarMenuToggle` renderiza um
             <button>. Solto, ele seria um filho direto de lista que não é <li> —
             o `NavbarItem` em volta é quem fornece o <li>.
+
+            O tamanho explícito é obrigatório. O toggle vem com `h-full`, mas o
+            <li> não tem altura definida, e o botão colapsava para 24×2px: só
+            abria o menu o toque que acertasse uma das linhas do ícone. 44px é o
+            alvo de toque recomendado; a margem negativa devolve o ícone ao
+            alinhamento com a borda.
           */}
           <NavbarItem className="lg:hidden">
-            <NavbarMenuToggle aria-label={dict.nav.menu} />
+            <NavbarMenuToggle aria-label={dict.nav.menu} className="h-11 w-11 -mr-2.5" />
           </NavbarItem>
         </NavbarContent>
 

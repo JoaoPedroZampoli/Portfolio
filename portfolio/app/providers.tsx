@@ -21,12 +21,26 @@ declare module "@react-types/shared" {
   }
 }
 
+/**
+ * O next-themes renderiza um <script> inline que aplica o tema antes da
+ * pintura. Ele só serve no HTML do servidor: quando o React cria o mesmo
+ * <script> no navegador (ao trocar de idioma o layout remonta), ele nunca
+ * executa, e o React 19 avisa no console. Com `text/plain` no cliente o
+ * elemento vira bloco de dados e o aviso some; no servidor continua
+ * `text/javascript` e roda normalmente. A diferença de atributo na hidratação
+ * não gera aviso porque o next-themes já marca o script com
+ * `suppressHydrationWarning`.
+ */
+const themeScriptProps = {
+  type: typeof window === "undefined" ? "text/javascript" : "text/plain",
+};
+
 export function Providers({ children, themeProps }: ProvidersProps) {
   const router = useRouter();
 
   return (
     <HeroUIProvider navigate={router.push}>
-      <NextThemesProvider {...themeProps}>
+      <NextThemesProvider scriptProps={themeScriptProps} {...themeProps}>
         {/*
           O bloco `prefers-reduced-motion` do globals.css só alcança animações
           e transições do CSS. Todo o movimento do site vem do Framer Motion,
