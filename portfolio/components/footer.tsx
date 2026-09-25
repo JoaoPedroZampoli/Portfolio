@@ -57,7 +57,7 @@ export function Footer({ locale, dict }: FooterProps) {
               {siteConfig.navItems.map((item) => (
                 <li key={item.key}>
                   <NextLink
-                    className="text-default-500 hover:text-primary text-sm transition-colors"
+                    className="text-default-500 hover:text-primary dark:hover:text-primary-500 text-sm transition-colors"
                     href={localePath(locale, item.href)}
                   >
                     {dict.nav[item.key]}
@@ -77,7 +77,7 @@ export function Footer({ locale, dict }: FooterProps) {
                   key={label}
                   isExternal
                   aria-label={label}
-                  className="text-default-500 hover:text-primary transition-colors"
+                  className="text-default-500 hover:text-primary dark:hover:text-primary-500 transition-colors"
                   href={href}
                 >
                   <Icon size={22} />
@@ -88,21 +88,23 @@ export function Footer({ locale, dict }: FooterProps) {
               <li>
                 <Link
                   isExternal
-                  className="text-default-500 hover:text-primary text-sm"
+                  className="text-default-500 hover:text-primary dark:hover:text-primary-500 text-sm"
                   href={siteConfig.links.repo}
                 >
                   {dict.footer.sourceCode}
                 </Link>
               </li>
-              <li>
-                <Link
-                  isExternal
-                  className="text-default-500 hover:text-primary text-sm"
-                  href={siteConfig.resume[locale]}
-                >
-                  {dict.footer.resume}
-                </Link>
-              </li>
+              {siteConfig.showResume && (
+                <li>
+                  <Link
+                    isExternal
+                    className="text-default-500 hover:text-primary dark:hover:text-primary-500 text-sm"
+                    href={siteConfig.resume[locale]}
+                  >
+                    {dict.footer.resume}
+                  </Link>
+                </li>
+              )}
               <li className="text-default-500 text-sm">
                 {siteConfig.location[locale]}
               </li>

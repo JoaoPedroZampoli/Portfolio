@@ -1,8 +1,8 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 interface RevealProps {
   children: ReactNode;
@@ -16,8 +16,20 @@ interface RevealProps {
 }
 
 /**
- * Encapsula o padrão de entrada usado em todo o site, que antes estava repetido
- * literalmente em dezenas de `motion.div`.
+ * Encapsula o padrão de entrada usado em todo o site.
+ *
+ * O estado de repouso é visível, e isso é o ponto. A versão anterior animava
+ * pelo Framer Motion a partir de `opacity: 0`, e esse zero ia no HTML do
+ * servidor: a página Sobre chegava com trinta blocos invisíveis e só aparecia
+ * depois da hidratação. Sem JavaScript, ou antes dele, o conteúdo não estava
+ * lá — nem para quem lê, nem para quem rastreia.
+ *
+ * Agora quem esconde é o próprio JavaScript, depois de montar, e só o que está
+ * fora da tela. O bloco que já está visível na primeira medição fica como
+ * está: além de correto, evita o pisca de esconder e reanimar acima da dobra.
+ *
+ * `immediate` não precisa de observador nenhum — é animação de CSS na
+ * montagem, com `backwards` segurando o estado inicial durante o atraso.
  */
 export function Reveal({
   children,
@@ -26,32 +38,53 @@ export function Reveal({
   y = 24,
   immediate = false,
 }: RevealProps) {
-  const animation = {
-    initial: { opacity: 0, y },
-    transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
-  };
+  const ref = useRef<HTMLDivElement>(null);
 
-  if (immediate) {
-    return (
-      <motion.div
-        animate={{ opacity: 1, y: 0 }}
-        className={className}
-        {...animation}
-      >
-        {children}
-      </motion.div>
+  useEffect(() => {
+    if (immediate) return;
+
+    const elemento = ref.current;
+
+    if (!elemento) return;
+
+    let primeira = true;
+
+    const observador = new IntersectionObserver(
+      ([entrada]) => {
+        if (entrada.isIntersecting) {
+          // Se já estava visível na primeira medição, não há o que animar —
+          // e, principalmente, não há o que esconder.
+          if (!primeira) elemento.dataset.reveal = "in";
+          observador.disconnect();
+        } else if (primeira) {
+          // Fora da tela: dá para esconder sem ninguém ver o conteúdo sumir.
+          elemento.dataset.reveal = "pending";
+        }
+
+        primeira = false;
+      },
+      { threshold: 0.15 },
     );
-  }
+
+    observador.observe(elemento);
+
+    return () => observador.disconnect();
+  }, [immediate]);
+
+  const estilo = {
+    "--reveal-y": `${y}px`,
+    "--reveal-delay": `${delay}s`,
+  } as CSSProperties;
 
   return (
-    <motion.div
+    <div
+      ref={ref}
       className={className}
-      viewport={{ once: true, amount: 0.15 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      {...animation}
+      data-reveal={immediate ? "in" : undefined}
+      style={estilo}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 

@@ -60,7 +60,7 @@ export default async function AboutPage({
               className="w-56 h-56 md:w-64 md:h-64 rounded-large object-cover"
               height={256}
               sizes="256px"
-              src="/MyPhoto.jpg"
+              src="/about-me.jpg"
               width={256}
             />
           </Reveal>
@@ -82,14 +82,16 @@ export default async function AboutPage({
 
             <Reveal delay={0.3} immediate>
               <div className="flex flex-wrap gap-3 mt-8 justify-center md:justify-start">
-                <LinkButton
-                  isExternal
-                  color="primary"
-                  href={siteConfig.resume[typedLocale]}
-                  radius="full"
-                >
-                  {dict.about.resumeCta}
-                </LinkButton>
+                {siteConfig.showResume && (
+                  <LinkButton
+                    isExternal
+                    color="primary"
+                    href={siteConfig.resume[typedLocale]}
+                    radius="full"
+                  >
+                    {dict.about.resumeCta}
+                  </LinkButton>
+                )}
                 <LinkButton
                   isExternal
                   href={siteConfig.links.lattes}
@@ -110,6 +112,7 @@ export default async function AboutPage({
         <SectionHeader align="left" title={dict.about.timelineTitle} />
         <Timeline
           entries={timeline}
+          kindLabels={dict.about.kinds}
           locale={typedLocale}
           presentLabel={dict.about.present}
         />
@@ -178,7 +181,7 @@ export default async function AboutPage({
             <Reveal key={event.id} delay={index * 0.06}>
               <Card className="h-full border border-default-200" shadow="none">
                 <CardBody className="p-5">
-                  <p className="text-xs font-medium text-primary mb-2">
+                  <p className="text-xs font-medium text-primary dark:text-primary-500 mb-2">
                     {event.date[typedLocale]}
                   </p>
                   <h3 className="font-semibold text-foreground mb-1 leading-snug">

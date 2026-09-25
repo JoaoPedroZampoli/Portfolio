@@ -99,3 +99,126 @@
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--heroui-primary));
 }
+
+/*
+ * Entrada dos blocos ao entrar na tela.
+ *
+ * O estado de repouso é visível de propósito: quem esconde é o atributo
+ * `data-reveal`, que só o JavaScript põe, e só no que está fora da tela. Antes
+ * o `opacity: 0` vinha no HTML do servidor e a página chegava em branco até a
+ * hidratação.
+ *
+ * Tudo dentro de `no-preference`: quem pediu menos movimento recebe o conteúdo
+ * parado e visível, sem nunca passar pelo estado escondido.
+ */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-y, 24px));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal="pending"] {
+    opacity: 0;
+    transform: translateY(var(--reveal-y, 24px));
+  }
+
+  [data-reveal="in"] {
+    animation: reveal 0.6s cubic-bezier(0.22, 1, 0.36, 1)
+      var(--reveal-delay, 0s) backwards;
+  }
+}
+
+/*
+ * Altura do herói. `100vh` no celular conta a barra do navegador que some ao
+ * rolar, e a seção fica mais alta que a tela — é o pulo clássico. `dvh`
+ * acompanha a altura real; o `@supports` mantém `vh` como piso para quem não
+ * tem suporte.
+ */
+.min-h-heroi {
+  min-height: calc(100vh - 4rem);
+}
+
+@supports (height: 100dvh) {
+  .min-h-heroi {
+    min-height: calc(100dvh - 4rem);
+  }
+}
+
+/*
+ * Variantes da mesma ideia, para os dois lugares que animavam pelo Framer
+ * Motion com `initial={{ opacity: 0 }}` — o retrato do herói e a barra de
+ * navegação. Em CSS o estado de repouso é visível, então a barra não depende
+ * mais de hidratação para existir.
+ */
+@keyframes reveal-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-80px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Manchas de luz que sobem e descem atrás do retrato. Puramente decorativas. */
+@keyframes flutua-sobe {
+  0%,
+  100% {
+    transform: translateY(-10px);
+  }
+
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+@keyframes flutua-desce {
+  0%,
+  100% {
+    transform: translateY(10px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal="zoom"] {
+    animation: reveal-zoom 0.7s cubic-bezier(0.22, 1, 0.36, 1)
+      var(--reveal-delay, 0s) backwards;
+  }
+
+  [data-reveal="drop"] {
+    animation: reveal-drop 0.4s ease-out backwards;
+  }
+
+  .flutua-sobe {
+    animation: flutua-sobe 4s ease-in-out infinite;
+  }
+
+  .flutua-desce {
+    animation: flutua-desce 3s ease-in-out infinite;
+  }
+}

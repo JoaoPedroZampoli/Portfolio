@@ -19,11 +19,11 @@ export const timeline: TimelineEntry[] = [
     bullets: {
       pt: [
         "Desenvolvimento de serviços em Clojure dentro do ecossistema de microsserviços do banco",
-        "Contato com práticas de engenharia em escala: revisão de código, testes e deploy contínuo",
+        "Contato com práticas de engenharia em escala: produção de código, testes e deploy contínuo",
       ],
       en: [
         "Building Clojure services inside the bank's microservice ecosystem",
-        "Exposure to engineering practices at scale: code review, testing and continuous deployment",
+        "Exposure to engineering practices at scale: writing code, testing and continuous deployment",
       ],
     },
   },
@@ -245,15 +245,6 @@ export const involvements: {
     description: {
       pt: "Planejei e ministrei aulas de Arduino para alunos de ensino médio da rede pública.",
       en: "I planned and taught Arduino classes to public high school students.",
-    },
-  },
-  {
-    id: "interlinguando",
-    name: "Interlinguando",
-    url: "https://www.instagram.com/projeto.interlinguando",
-    description: {
-      pt: "Projeto de extensão da Unifesp voltado ao ensino e à troca de idiomas.",
-      en: "A Unifesp extension project focused on language teaching and exchange.",
     },
   },
   {

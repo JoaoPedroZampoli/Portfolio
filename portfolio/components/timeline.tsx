@@ -38,9 +38,15 @@ interface TimelineProps {
   entries: TimelineEntry[];
   locale: Locale;
   presentLabel: string;
+  kindLabels: Record<TimelineKind, string>;
 }
 
-export function Timeline({ entries, locale, presentLabel }: TimelineProps) {
+export function Timeline({
+  entries,
+  locale,
+  presentLabel,
+  kindLabels,
+}: TimelineProps) {
   return (
     <ol className="relative border-l border-default-200 ml-4 md:ml-6 space-y-10">
       {entries.map((entry, index) => {
@@ -58,13 +64,19 @@ export function Timeline({ entries, locale, presentLabel }: TimelineProps) {
             >
               {style.emoji}
             </span>
+            {/*
+              O emoji é decorativo e a cor da borda não vale como informação
+              sozinha. Este rótulo é o único caminho pelo qual a categoria
+              chega a quem usa leitor de tela.
+            */}
+            <span className="sr-only">{kindLabels[entry.kind]}</span>
 
             <Reveal delay={index * 0.04}>
               <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                 <h3 className="font-semibold text-foreground text-lg">
                   {entry.role[locale]}
                 </h3>
-                <time className="text-xs font-medium text-primary whitespace-nowrap">
+                <time className="text-xs font-medium text-primary dark:text-primary-500 whitespace-nowrap">
                   {formatPeriod(entry, locale, presentLabel)}
                 </time>
               </div>
@@ -73,7 +85,7 @@ export function Timeline({ entries, locale, presentLabel }: TimelineProps) {
                 {entry.organizationUrl ? (
                   <Link
                     isExternal
-                    className="text-sm text-default-500 hover:text-primary transition-colors"
+                    className="text-sm text-default-500 hover:text-primary dark:hover:text-primary-500 transition-colors"
                     href={entry.organizationUrl}
                   >
                     {organization}

@@ -77,7 +77,7 @@ const mdxComponents = {
   ),
   a: (props: React.ComponentPropsWithoutRef<"a">) => (
     <a
-      className="text-primary underline underline-offset-4 hover:opacity-80"
+      className="text-primary dark:text-primary-500 underline underline-offset-4 hover:opacity-80"
       rel="noreferrer"
       target={props.href?.startsWith("http") ? "_blank" : undefined}
       {...props}
@@ -122,7 +122,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   return (
     <article className="w-full max-w-3xl mx-auto px-6 py-16 md:py-24">
       <Link
-        className="inline-flex items-center gap-1.5 text-sm text-default-500 hover:text-primary transition-colors mb-8"
+        className="inline-flex items-center gap-1.5 text-sm text-default-500 hover:text-primary dark:hover:text-primary-500 transition-colors mb-8"
         href={localePath(typedLocale, "/blog")}
       >
         <ChevronLeftIcon size={16} />

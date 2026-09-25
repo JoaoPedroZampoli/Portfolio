@@ -7,7 +7,6 @@ import { Link } from "@heroui/link";
 import { Navbar as HeroUINavbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from "@heroui/navbar";
 import { link as linkStyles } from "@heroui/theme";
 import clsx from "clsx";
-import { motion } from "framer-motion";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -17,6 +16,19 @@ import { LocaleSwitch } from "@/components/locale-switch";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { siteConfig } from "@/config/site";
 import { localePath } from "@/lib/navigation";
+
+/**
+ * Sublinhado do link ativo. É um `::after` em vez de `text-decoration` porque
+ * sublinhado de texto não anima: aqui a linha cresce do centro (`scale-x`)
+ * quando o link vira ativo e recolhe no que deixou de ser. A navbar não
+ * desmonta entre páginas, então as duas transições acontecem juntas.
+ */
+const sublinhado = (ativo: boolean) =>
+  clsx(
+    "relative after:absolute after:inset-x-0 after:-bottom-1 after:h-0.5 after:rounded-full after:bg-primary dark:after:bg-primary-500",
+    "after:transition-transform after:duration-300 after:ease-out",
+    ativo ? "after:scale-x-100" : "after:scale-x-0",
+  );
 
 interface NavbarProps {
   locale: Locale;
@@ -36,12 +48,12 @@ export function Navbar({ locale, dict }: NavbarProps) {
     href === localePath(locale) ? pathname === href : pathname.startsWith(href);
 
   return (
-    <motion.div
-      animate={{ y: 0, opacity: 1 }}
-      className="sticky top-0 z-50"
-      initial={{ y: -80, opacity: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-    >
+    /*
+      A entrada é CSS. Com o Framer Motion, o `initial` ia no HTML do servidor
+      e a barra de navegação chegava com `opacity: 0` em toda página — a
+      navegação do site só existia depois da hidratação.
+    */
+    <div className="sticky top-0 z-50" data-reveal="drop">
       <HeroUINavbar
         isBordered
         isMenuOpen={isMenuOpen}
@@ -70,12 +82,12 @@ export function Navbar({ locale, dict }: NavbarProps) {
                 aria-current={isActive(item.href) ? "page" : undefined}
                 className={clsx(
                   linkStyles({ color: "foreground" }),
-                  "px-3 py-2 text-sm rounded-lg transition-colors hover:text-primary",
-                  isActive(item.href) && "text-primary font-medium",
+                  "px-3 py-2 text-sm rounded-lg transition-colors hover:text-primary dark:hover:text-primary-500",
+                  isActive(item.href) && "text-primary dark:text-primary-500 font-medium",
                 )}
                 href={item.href}
               >
-                {item.label}
+                <span className={sublinhado(isActive(item.href))}>{item.label}</span>
               </NextLink>
             </NavbarItem>
           ))}
@@ -84,7 +96,7 @@ export function Navbar({ locale, dict }: NavbarProps) {
         <NavbarContent justify="end">
           <NavbarItem className="hidden sm:flex gap-2 items-center">
             <Link isExternal aria-label="LinkedIn" href={siteConfig.links.linkedin}>
-              <LinkedInIcon className="text-default-500 hover:text-primary transition-colors" />
+              <LinkedInIcon className="text-default-500 hover:text-primary dark:hover:text-primary-500 transition-colors" />
             </Link>
             <Link isExternal aria-label="GitHub" href={siteConfig.links.github}>
               <GithubIcon className="text-default-500 hover:text-foreground transition-colors" />
@@ -116,19 +128,19 @@ export function Navbar({ locale, dict }: NavbarProps) {
                 className={clsx(
                   "block w-full py-2.5 text-lg transition-colors",
                   isActive(item.href)
-                    ? "text-primary font-medium"
+                    ? "text-primary dark:text-primary-500 font-medium"
                     : "text-foreground",
                 )}
                 href={item.href}
                 onClick={() => setIsMenuOpen(false)}
               >
-                {item.label}
+                <span className={sublinhado(isActive(item.href))}>{item.label}</span>
               </NextLink>
             </NavbarMenuItem>
           ))}
         </NavbarMenu>
       </HeroUINavbar>
-    </motion.div>
+    </div>
   );
 }
 

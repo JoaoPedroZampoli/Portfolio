@@ -34,6 +34,12 @@ export const siteConfig = {
     linkedin: "https://www.linkedin.com/in/joaopedrozampoli/",
     lattes: "http://lattes.cnpq.br/2122344284482660",
   },
+  /**
+   * Liga os links do currículo (herói, Sobre e rodapé). Desligado enquanto o
+   * PDF é refeito. Os arquivos continuam em `public/resume`, acessíveis por
+   * quem tiver a URL direta.
+   */
+  showResume: false,
   resume: {
     pt: "/resume/Curriculo - Online Version - JoaoPedroZampoli.pdf",
     en: "/resume/Resume - Online Version - JoaoPedroZampoli.pdf",

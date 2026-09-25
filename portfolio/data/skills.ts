@@ -3,7 +3,7 @@ import type { LanguageSkill, SkillGroup } from "@/types";
 export const skillGroups: SkillGroup[] = [
   {
     id: "languages",
-    label: { pt: "Linguagens", en: "Languages" },
+    label: { pt: "Linguagens de programação", en: "Programming languages" },
     items: ["TypeScript", "JavaScript", "Python", "C", "Java", "C#", "Clojure", "PHP", "SQL"],
   },
   {

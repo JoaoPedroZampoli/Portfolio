@@ -21,7 +21,7 @@ function resolveLocale(request: NextRequest) {
   return preferred.find(isLocale) ?? defaultLocale;
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const hasLocale = locales.some(

@@ -25,7 +25,7 @@ const pt = {
     featuredTitle: "Projetos em destaque",
     featuredSubtitle: "Uma seleção do que construí dentro e fora da universidade",
     allProjects: "Ver todos os projetos",
-    nowTitle: "No que já fiz parte",
+    nowTitle: "Envolvimentos",
     ctaCardTitle: "Vamos trabalhar juntos?",
     ctaCardText:
       "Estou aberto a oportunidades, colaborações e projetos desafiadores. Me mande uma mensagem.",
@@ -35,13 +35,24 @@ const pt = {
     bio: [
       "Sou João Pedro, desenvolvedor de software nascido em Itaquaquecetuba e criado em Poá, ambas na Região Metropolitana de São Paulo, mudando-me mais tarde, no início da vida adulta, para Jacareí no interior de São Paulo. Comecei a mexer com programação por volta de 2015, tentando fazer jogos na Unity 5 sem entender quase nada e foi um pouco disso que me trouxe até aqui.",
       "Me formei Técnico em Desenvolvimento de Sistemas pela Etec de Poá e Ciência e Tecnologia com ênfase em Ciência da Computação no ICT da Unifesp, em São José dos Campos.",
-      "Na universidade, coordenei um time de desenvolvimento no CodeLab, projeto de extensão que constrói software livre com finalidade social, e ajudei a planejar e ministrar aulas de Arduino para alunos de ensino médio no CodeLab Teen. Também participei do Interlinguando e representei os estudantes no diretório acadêmico DAAK.",
-      "Hoje sou estagiário de engenharia de software no Nubank, onde desenvolvo serviços em Clojure dentro do ecossistema de microsserviços do banco. É onde estou aprendendo na prática o que muda quando o software roda em escala: produção de código, testes e deploy contínuo fazem parte da rotina.",
-      "Gosto de trabalhar perto do produto: entender o problema, desenhar o fluxo, escrever o código e ver alguém usando. Fora do código, sou entusiasta de jogos, tanto para jogar quanto para desenvolver.",
+      "Na universidade, coordenei um time de desenvolvimento no CodeLab, projeto de extensão que constrói software livre com finalidade social, e ajudei a planejar e ministrar aulas de Arduino para alunos de ensino médio no CodeLab Teen. Também represento os estudantes no diretório acadêmico DAAK.",
+      "Hoje sou estagiário de engenharia de software no Nubank, onde desenvolvo serviços em Clojure dentro do ecossistema de microsserviços do banco. É onde estou aprendendo na prática o que muda quando o software roda em larga escala, com produção de código, testes e deploy contínuo fazendo parte da rotina.",
     ],
     timelineTitle: "Trajetória",
+    /*
+     * Natureza de cada entrada da trajetória. O emoji que a indica na tela é
+     * `aria-hidden`, e a cor da borda sozinha não carrega significado (WCAG
+     * 1.4.1): sem estes rótulos, quem usa leitor de tela não recebia a
+     * distinção entre trabalho, formação, extensão e voluntariado.
+     */
+    kinds: {
+      work: "Trabalho",
+      education: "Formação",
+      extension: "Extensão",
+      volunteering: "Voluntariado",
+    },
     skillsTitle: "Algumas coisas que já usei e programei com",
-    languagesTitle: "Linguagens",
+    languagesTitle: "Idiomas",
     volunteeringTitle: "Voluntariado e eventos",
     resumeCta: "Baixar currículo (PDF)",
     present: "Atual",

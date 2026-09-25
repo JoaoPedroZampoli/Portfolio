@@ -140,7 +140,7 @@ export default async function ContactPage({
                   >
                     {channel.text}
                   </p>
-                  <span className="text-sm font-medium text-primary flex items-center gap-1.5">
+                  <span className="text-sm font-medium text-primary dark:text-primary-500 flex items-center gap-1.5">
                     {channel.cta}
                     <ExternalLinkIcon size={14} />
                   </span>

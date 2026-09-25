@@ -50,7 +50,7 @@ export default async function HomePage({
                       <Link
                         isExternal
                         aria-label={item.name}
-                        className="text-default-500 hover:text-primary transition-colors shrink-0"
+                        className="text-default-500 hover:text-primary dark:hover:text-primary-500 transition-colors shrink-0"
                         href={item.url}
                       >
                         <ExternalLinkIcon size={16} />

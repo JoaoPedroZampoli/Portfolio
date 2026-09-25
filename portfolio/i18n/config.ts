@@ -4,10 +4,15 @@ export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = "pt";
 
-/** Rótulos usados no seletor de idioma. */
-export const localeNames: Record<Locale, { label: string; flag: string }> = {
-  pt: { label: "Português", flag: "🇧🇷" },
-  en: { label: "English", flag: "🇺🇸" },
+/**
+ * Rótulos usados no seletor de idioma.
+ *
+ * A bandeira saiu daqui: era emoji, que o Windows não desenha. Agora é um
+ * componente SVG, mapeado em `locale-switch` — este módulo não importa React.
+ */
+export const localeNames: Record<Locale, { label: string }> = {
+  pt: { label: "Português" },
+  en: { label: "English" },
 };
 
 export function isLocale(value: string): value is Locale {

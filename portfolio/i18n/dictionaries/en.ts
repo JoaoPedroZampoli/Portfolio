@@ -31,7 +31,7 @@ const en: typeof pt = {
     featuredTitle: "Featured projects",
     featuredSubtitle: "A selection of what I've built inside and outside university",
     allProjects: "See all projects",
-    nowTitle: "What I've been part of",
+    nowTitle: "Involvements",
     ctaCardTitle: "Let's work together?",
     ctaCardText:
       "I'm open to opportunities, collaborations and challenging projects. Drop me a message.",
@@ -41,11 +41,16 @@ const en: typeof pt = {
     bio: [
       "I'm João Pedro, a software developer born in Itaquaquecetuba and raised in Poá, both in the São Paulo metropolitan area, later moving to Jacareí, in the countryside of São Paulo, in my early adult years. I started messing with programming around 2015, trying to build games in Unity 5 without understanding much of anything — and that's part of what got me here.",
       "I graduated as a Systems Development Technician from Etec de Poá, and in Science and Technology with an emphasis on Computer Science from ICT — Unifesp, in São José dos Campos.",
-      "At university I coordinated a development team at CodeLab, an extension program that builds free software for social causes, and helped plan and teach Arduino classes to high school students at CodeLab Teen. I was also part of Interlinguando and represented students at the DAAK student council.",
-      "Today I'm a software engineering intern at Nubank, building Clojure services inside the bank's microservice ecosystem. It's where I'm learning first-hand what changes when software runs at scale: writing code, testing and continuous deployment are part of the routine.",
-      "I like working close to the product: understanding the problem, designing the flow, writing the code and seeing someone actually use it. Away from the keyboard, I'm a games enthusiast — both playing and building them.",
+      "At university I coordinated a development team at CodeLab, an extension program that builds free software for social causes, and helped plan and teach Arduino classes to high school students at CodeLab Teen. I also represent students at the DAAK student council.",
+      "Today I'm a software engineering intern at Nubank, building Clojure services inside the bank's microservice ecosystem. It's where I'm learning first-hand what changes when software runs at large scale, with writing code, testing and continuous deployment as part of the routine.",
     ],
     timelineTitle: "Timeline",
+    kinds: {
+      work: "Work",
+      education: "Education",
+      extension: "Extension",
+      volunteering: "Volunteering",
+    },
     skillsTitle: "Some things I've used and built with",
     languagesTitle: "Languages",
     volunteeringTitle: "Volunteering and events",

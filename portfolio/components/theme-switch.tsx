@@ -22,10 +22,13 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
   classNames,
   label = "Toggle theme",
 }) => {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const isSSR = useIsSSR();
 
-  const isLight = theme === "light" || isSSR;
+  // `resolvedTheme`, não `theme`: com o padrão em "system" o `theme` vale a
+  // string "system", e o botão mostraria o ícone errado justamente para quem
+  // nunca tocou nele.
+  const isLight = resolvedTheme === "light" || isSSR;
 
   const {
     Component,
