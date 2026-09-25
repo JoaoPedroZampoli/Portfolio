@@ -47,7 +47,10 @@ export default async function AboutPage({
     <div className="w-full">
       {/* Apresentação */}
       <section className="relative w-full px-6 pt-16 pb-20 md:pt-24 md:pb-28 overflow-hidden">
-        <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none [mask-image:linear-gradient(to_bottom,black_45%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,black_45%,transparent)]"
+        >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_30%,rgba(120,119,198,0.12),transparent_55%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,rgba(59,130,246,0.1),transparent_55%)]" />
         </div>
