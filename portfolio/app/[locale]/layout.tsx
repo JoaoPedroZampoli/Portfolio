@@ -92,6 +92,11 @@ export async function generateMetadata({
       description: dict.meta.description,
       images: [ogImage],
     },
+    // Gera <meta name="google-site-verification"> em toda página, então a
+    // verificação passa tanto pela raiz (que redireciona) quanto por /pt e /en.
+    ...(siteConfig.googleSiteVerification && {
+      verification: { google: siteConfig.googleSiteVerification },
+    }),
   };
 }
 

@@ -35,6 +35,12 @@ export const siteConfig = {
     lattes: "http://lattes.cnpq.br/2122344284482660",
   },
   /**
+   * Código da verificação do Google Search Console (método "Tag HTML"): só o
+   * valor do `content` da meta tag que o Search Console mostra. Não é segredo —
+   * vai no HTML de toda página. Vazio, a tag não é gerada.
+   */
+  googleSiteVerification: "I6GS6G0ZDTvOUm5-iGJXjJEIe7pVJWlS102hPbzb2AA",
+  /**
    * Liga os links do currículo (herói, Sobre e rodapé). Desligado enquanto o
    * PDF é refeito. Os arquivos continuam em `public/resume`, acessíveis por
    * quem tiver a URL direta.
